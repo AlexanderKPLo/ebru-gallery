@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.5 system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ebru's First Exhibition</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Caveat:wght@500;600&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a lobby and three gallery rooms, one per screen, linked by doors; works hang on a tinted wall with printed labels and Alex's handwritten notes. */
+:root{
+  --wall:#E7E4EA; --wall-2:#DBD7E0; --ink:#231A29; --muted:#655C6B; --red:#B21F2A; --mat:#FAF9FB;
+  --line:rgba(35,26,41,.16); --spot:rgba(255,255,255,.6); --shadow:rgba(35,26,41,.22); --hand:#3B2F7A;
+  --display:"Gloock", "Didot", "Bodoni 72", Georgia, serif;
+  --body:"Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --script:"Caveat", "Bradley Hand", "Segoe Print", cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --wall:#17121B; --wall-2:#231B29; --ink:#EEE8F0; --muted:#A69BAC; --red:#E3434D; --mat:#0D0A10;
+  --line:rgba(238,232,240,.14); --spot:rgba(255,236,214,.08); --shadow:rgba(0,0,0,.6); --hand:#C9BCFF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --wall:#17121B; --wall-2:#231B29; --ink:#EEE8F0; --muted:#A69BAC; --red:#E3434D; --mat:#0D0A10;
+  --line:rgba(238,232,240,.14); --spot:rgba(255,236,214,.08); --shadow:rgba(0,0,0,.6); --hand:#C9BCFF; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--wall);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--wall)}
+.page{max-width:1180px;margin:0 auto;overflow-x:clip}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+p{margin:0}
+button{font:inherit;color:inherit}
+a{color:inherit}
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+/* Top bar */
+.bar{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;background:var(--wall);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:12px;padding-block:10px;margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding-inline:max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px))}
+.brand{font-family:var(--display);font-size:17px;white-space:nowrap;text-decoration:none}
+.nav{flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;display:flex;gap:2px;justify-content:center}
+.nav::-webkit-scrollbar{display:none}
+.nav a{white-space:nowrap;text-decoration:none;font-size:14px;padding:6px 10px;border-radius:999px;color:var(--muted)}
+.nav a[aria-current="page"]{color:var(--ink);background:var(--wall-2)}
+.tools{display:flex;align-items:center;gap:10px}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:none;padding:5px 10px;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--wall)}
+.hunt{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.hunt svg{width:20px;height:20px}
+.music-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;background:none;padding:5px 10px;cursor:pointer;font-size:13px;color:var(--muted);max-width:220px}
+.music-btn[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+.music-btn .np{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.eq{display:inline-flex;align-items:flex-end;gap:2px;height:12px;flex:none}
+.eq i{display:block;width:3px;height:4px;background:currentColor;border-radius:1px}
+.music-btn[aria-pressed="true"] .eq i{animation:eq 1s ease-in-out infinite}
+.music-btn[aria-pressed="true"] .eq i:nth-child(2){animation-delay:-.3s}
+.music-btn[aria-pressed="true"] .eq i:nth-child(3){animation-delay:-.6s}
+@keyframes eq{0%,100%{height:3px}50%{height:12px}}
+.invite{margin-top:22px}
+.songs{display:grid;gap:10px}
+button.record{width:100%;text-align:left;border:1px solid transparent;cursor:pointer}
+button.record:hover{border-color:var(--line)}
+button.record.playing{border-color:var(--red)}
+button.record.playing .disc{animation:spin 3s linear infinite}
+.sub-h{margin-top:6px}
+.song-text{display:grid;gap:2px;min-width:0}
+.song-t{font-family:var(--display);font-size:20px;line-height:1.25}
+.song-c{font-size:14px;color:var(--muted)}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,72px);align-items:center;padding-block:clamp(36px,7vw,88px) clamp(32px,5vw,56px)}
+.hero h1{font-size:clamp(48px,8.6vw,112px);line-height:.95;letter-spacing:-.015em;margin-top:18px}
+.hero h1 span{display:block}
+.hero .sub{font-size:19px;margin-top:22px;color:var(--muted);max-width:32ch}
+.plaque{position:relative;margin-top:34px;display:inline-grid;gap:6px;border-top:1px solid var(--ink);padding-top:14px;font-size:14.5px;max-width:36ch}
+.plaque b{font-weight:600}
+.hero-work .frame{transform:rotate(-.4deg)}
+.lede{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(20px,4vw,56px);border-top:1px solid var(--line);padding-block:clamp(36px,6vw,64px)}
+.lede h2{font-size:clamp(28px,3.6vw,40px)}
+.lede .body{display:grid;gap:14px;max-width:58ch;font-size:18px}
+.sign{font-family:var(--script);font-size:30px;line-height:1.1;color:var(--hand)}
+
+/* Doors */
+.doors{border-top:1px solid var(--line);padding-block:clamp(36px,6vw,64px);display:grid;gap:24px}
+.door-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.6vw,32px)}
+.door{display:grid;gap:12px;text-decoration:none;color:inherit}
+.door .pic{aspect-ratio:3/4;max-width:100%;overflow:hidden;background:var(--mat);padding:10px;box-shadow:0 14px 28px -16px var(--shadow)}
+.door .pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.door:hover .pic img{transform:scale(1.04)}
+.door h3{font-size:24px}
+.door p{font-size:14px;color:var(--muted)}
+.side-doors{display:flex;flex-wrap:wrap;gap:12px}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);border-radius:999px;padding:9px 18px;text-decoration:none;font-weight:500;font-size:15px;background:none;cursor:pointer}
+.pill:hover{background:var(--ink);color:var(--wall)}
+.reddot{display:flex;gap:16px;align-items:flex-start;max-width:62ch;border-top:1px solid var(--line);padding-block:clamp(28px,5vw,48px)}
+.reddot .dot{width:20px;height:20px;margin-top:4px}
+
+/* Frames, spotlight, labels */
+.work{margin:0;position:relative;display:grid;gap:16px;align-content:start;transform:translate3d(0,var(--py,0px),0)}
+.work::before{content:"";position:absolute;inset:-48px -36px auto;height:70%;pointer-events:none;background:radial-gradient(ellipse farthest-side at 50% 0%, var(--spot), transparent);z-index:0}
+.frame{position:relative;z-index:1;display:block;width:100%;border:0;background:var(--mat);cursor:zoom-in;padding:clamp(10px,1.6vw,18px);
+  box-shadow:0 1px 0 var(--line), 0 18px 34px -16px var(--shadow), 0 4px 10px -4px var(--shadow)}
+.frame img{display:block;width:100%;height:auto;max-width:100%}
+.frame:hover img{filter:brightness(1.04)}
+.label{position:relative;z-index:1;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;max-width:42ch;font-size:15px}
+.num{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:6px;letter-spacing:.06em}
+.lt{display:grid;gap:2px;min-width:0}
+.label h3{font-size:21px;line-height:1.25;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.dot{flex:none;display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--red)}
+.named{font-family:var(--script);font-size:19px;color:var(--red);line-height:1.1}
+.medium{color:var(--muted);font-size:13px;letter-spacing:.04em}
+.note{margin-top:4px;font-family:var(--script);font-size:23px;line-height:1.2;color:var(--hand)}
+.name-btn{justify-self:start;margin-top:8px;border:0;background:none;padding:2px 0;font-size:13.5px;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.name-btn:hover{color:var(--ink)}
+.name-form{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.name-form input{flex:1 1 180px;min-width:0;font:inherit;font-size:16px;padding:8px 12px;border:1px solid var(--ink);background:var(--mat);color:var(--ink);border-radius:4px}
+.name-form button{border:1px solid var(--ink);background:var(--ink);color:var(--wall);border-radius:4px;padding:8px 14px;font-size:14px;cursor:pointer}
+.name-form button.ghost{background:none;color:var(--ink)}
+
+/* Rooms */
+.room-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(20px,4vw,56px);padding-block:clamp(36px,6vw,72px) clamp(28px,4vw,48px)}
+.room-head h2{font-size:clamp(40px,6vw,72px);line-height:1}
+.room-head .tr{font-family:var(--script);color:var(--muted);font-size:28px;margin-top:6px}
+.room-head .intro{max-width:52ch;font-size:18px;display:grid;gap:18px;align-content:end}
+.hang{padding-block:clamp(24px,4vw,48px) clamp(48px,7vw,88px)}
+.hang-1{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(20px,3vw,40px);row-gap:clamp(56px,8vw,96px)}
+.hang-1 .work:nth-child(1){grid-column:1 / span 7}
+.hang-1 .work:nth-child(2){grid-column:8 / span 5;margin-top:18%}
+.hang-1 .work:nth-child(3){grid-column:2 / span 5}
+.hang-1 .work:nth-child(4){grid-column:7 / span 6;margin-top:10%}
+.hang-1 .work:nth-child(5){grid-column:1 / span 6}
+.hang-1 .work:nth-child(6){grid-column:7 / span 5;margin-top:14%}
+.hang-1 .work:nth-child(7){grid-column:4 / span 6}
+.install{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,48px);align-items:end;padding-bottom:clamp(48px,7vw,88px)}
+.install .details{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,24px)}
+.install .details .frame{padding:8px}
+.install .cap h3{font-size:21px}
+.install .cap{display:grid;gap:4px}
+.hang-2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,56px);align-items:center}
+.hang-3{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(16px,2.4vw,32px)}
+.hang-3 .label h3{font-size:18px}
+.next{border-top:1px solid var(--line);padding-block:clamp(32px,5vw,56px);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.next a.big{font-family:var(--display);font-size:clamp(26px,3.6vw,40px);text-decoration:none}
+.next a.big:hover{color:var(--red)}
+
+/* Audio guide */
+.guide{display:grid;gap:10px;justify-items:start}
+.guide-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.play{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--ink);border-radius:999px;padding:8px 18px 8px 10px;background:none;cursor:pointer;font-weight:500;font-size:15px}
+.play .ic{width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-size:12px}
+.play:hover{background:var(--wall-2)}
+.guide .time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.readalong{border:0;background:none;padding:0;cursor:pointer;font-size:14px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.transcript{font-family:var(--script);font-size:23px;line-height:1.3;color:var(--hand);max-width:52ch;border-left:2px solid var(--red);padding-left:14px}
+
+/* Game */
+.game{padding-block:clamp(36px,6vw,72px);display:grid;gap:28px;justify-items:center;text-align:center}
+.game-head{position:relative;display:grid;gap:8px;justify-items:center;max-width:46ch;padding-inline:30px}
+.game-head h2{font-size:clamp(36px,5.4vw,60px);line-height:1}
+.loupe-view{width:min(260px,70vw);aspect-ratio:1;max-width:100%;border-radius:50%;background-color:var(--mat);background-repeat:no-repeat;
+  box-shadow:0 0 0 10px var(--mat), 0 0 0 11px var(--line), 0 24px 40px -18px var(--shadow);transition:background-size .7s ease, background-position .7s ease}
+.choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,2vw,20px);width:min(560px,100%)}
+.choice{border:0;padding:8px;background:var(--mat);cursor:pointer;box-shadow:0 10px 20px -12px var(--shadow);transition:transform .2s}
+.choice img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.choice:hover{transform:translateY(-3px)}
+.choice.wrong{opacity:.35;animation:shake .35s}
+.choice.right{box-shadow:0 0 0 3px var(--red), 0 10px 20px -12px var(--shadow)}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.feedback{min-height:1.6em;font-family:var(--script);font-size:28px;color:var(--hand)}
+.round{font-size:13px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-variant-numeric:tabular-nums}
+
+/* Exit */
+.exit-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);padding-block:clamp(24px,4vw,40px) clamp(48px,7vw,80px)}
+.exit-grid section{display:grid;gap:16px;align-content:start}
+.exit-grid h3{font-size:28px}
+.music{position:relative;display:grid;gap:14px}
+.record{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;align-items:center;padding:14px;background:var(--wall-2);border-radius:6px}
+.disc{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle, var(--red) 0 18%, var(--ink) 19% 21%, #1b1520 22% 100%);box-shadow:inset 0 0 0 6px rgba(255,255,255,.04)}
+.record:hover .disc{animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.record h4{margin:0;font-family:var(--display);font-weight:400;font-size:20px}
+.record p{font-size:14px;color:var(--muted)}
+.record .links{display:flex;gap:14px;font-size:14px;margin-top:4px}
+.note-box textarea{width:100%;min-height:140px;font:inherit;font-size:16px;padding:12px;border:1px solid var(--ink);background:var(--mat);color:var(--ink);border-radius:4px;resize:vertical}
+.status{font-size:14px;color:var(--muted);min-height:1.4em}
+.titles-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.titles-list li{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.titles-list .her{font-family:var(--display);font-size:20px}
+.titles-list .was{font-size:13px;color:var(--muted)}
+.secret{border:1px dashed var(--line);border-radius:6px;padding:20px;display:grid;gap:10px}
+.secret.open{border:1px solid var(--red)}
+.secret .msg{font-family:var(--script);font-size:28px;line-height:1.2;color:var(--hand)}
+
+footer{border-top:1px solid var(--line);padding-block:28px 48px;display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:space-between;color:var(--muted);font-size:14px}
+
+/* Hidden bear and kitten */
+.critter{position:absolute;z-index:4;width:34px;height:34px;padding:0;border:0;background:none;cursor:pointer;opacity:.62;transition:transform .25s, opacity .25s}
+.critter:hover{opacity:1;transform:scale(1.15) rotate(-6deg)}
+.critter svg{width:100%;height:100%;display:block}
+.critter.found{opacity:1;cursor:default;animation:pop .5s}
+@keyframes pop{40%{transform:scale(1.5) rotate(10deg)}}
+
+/* Lightbox */
+dialog{border:0;padding:0;background:transparent;max-width:100vw;max-height:100vh;width:100vw;height:100vh;color:var(--ink);overflow:hidden}
+dialog::backdrop{background:var(--wall);opacity:.97}
+.lb{height:100%;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:14px;
+  padding:max(20px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(18px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px))}
+.lb-stage{min-height:0;display:flex;align-items:center;justify-content:center;touch-action:none;user-select:none;-webkit-user-select:none}
+.lb-pic{background:var(--mat);padding:10px;box-shadow:0 20px 50px -20px var(--shadow);max-width:100%;max-height:100%;display:flex}
+.lb-pic img{display:block;max-width:100%;max-height:calc(100vh - 210px);object-fit:contain;cursor:crosshair;-webkit-touch-callout:none}
+.lens{position:fixed;z-index:5;width:170px;height:170px;border-radius:50%;pointer-events:none;background-repeat:no-repeat;background-color:var(--mat);
+  box-shadow:0 0 0 4px var(--mat), 0 0 0 5px var(--line), 0 18px 36px -10px rgba(0,0,0,.5)}
+.lb-bar{display:flex;align-items:center;gap:16px;max-width:900px;width:100%;margin:0 auto}
+.lb-text{flex:1;min-width:0}
+.lb-text h3{font-size:22px}
+.lb-text .note{font-size:22px}
+.lb-hint{font-size:13px;color:var(--muted)}
+.btn{flex:none;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--wall-2);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.btn:hover{border-color:var(--ink)}
+.lb-close{position:fixed;top:max(14px, env(safe-area-inset-top, 0px));right:max(14px, env(safe-area-inset-right, 0px));z-index:6}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);z-index:50;background:var(--ink);color:var(--wall);padding:10px 18px;border-radius:999px;font-size:15px;max-width:calc(100vw - 32px);text-align:center}
+
+.gate{position:fixed;inset:0;z-index:60;background:var(--wall);display:grid;place-items:center;padding:24px max(16px, env(safe-area-inset-right, 0px)) 24px max(16px, env(safe-area-inset-left, 0px))}
+.gate form{display:grid;gap:16px;justify-items:center;text-align:center;max-width:420px}
+.gate h2{font-size:clamp(34px,7vw,52px);line-height:1}
+.gate input{font:inherit;font-size:18px;padding:10px 14px;border:1px solid var(--ink);background:var(--mat);color:var(--ink);border-radius:4px;text-align:center;width:min(280px,100%)}
+
+.torch{position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(420px circle at var(--mx,50%) var(--my,30%), var(--spot), transparent 70%);opacity:0;transition:opacity .4s}
+body.rooms .torch{opacity:1}
+.view{position:relative;z-index:2}
+
+@media (max-width:860px){
+  .brand{display:none}
+  .music-btn{max-width:140px}
+  .nav{justify-content:flex-start}
+  .hero{grid-template-columns:1fr}
+  .hero-work{max-width:520px}
+  .lede,.room-head,.install,.exit-grid{grid-template-columns:minmax(0,1fr)}
+  .hang-1{grid-template-columns:minmax(0,1fr)}
+  .hang-1 .work:nth-child(n){grid-column:auto;margin-top:0}
+  .hang-2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .hang-2 .work:first-child{grid-column:1 / -1;max-width:440px}
+  .hang-3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .hang-3 .work:first-child{grid-column:1 / -1}
+  .door-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:12px}
+  .door h3{font-size:18px}
+  .door p{display:none}
+  .work::before{inset:-40px 0 auto}
+}
+@media (max-width:520px){
+  body{font-size:16px}
+  .hunt .lbl{display:none}
+  .music-btn .np{display:none}
+  .tools{gap:8px}
+  .hang-2,.hang-3{grid-template-columns:minmax(0,1fr)}
+  .lb-text h3{font-size:19px}
+  .lens{width:140px;height:140px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .view:not([hidden]) .room-head, .view:not([hidden]) .hero > div{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes rise{from{transform:translateY(12px)}to{transform:none}}
+}
+@media (prefers-reduced-motion:reduce){
+  .work{transform:none}
+  .torch{display:none}
+}
+</style>
+</head>
+<body>
+
+
+<div class="torch" aria-hidden="true"></div>
+<div class="page">
+
+<header class="bar">
+  <a class="brand" href="#lobby" data-i18n="brand">Ebru's First Exhibition</a>
+  <nav class="nav" aria-label="Rooms">
+    <a href="#lobby" data-i18n="navLobby">Lobby</a>
+    <a href="#room-1" data-i18n="navR1">Room 1</a>
+    <a href="#room-2" data-i18n="navR2">Room 2</a>
+    <a href="#room-3" data-i18n="navR3">Room 3</a>
+    <a href="#play" data-i18n="navPlay">Play</a>
+    <a href="#exit" data-i18n="navExit">Exit</a>
+  </nav>
+  <div class="tools">
+    <button class="music-btn" type="button" data-music-toggle aria-pressed="false"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="np" data-i18n="musicLabel">Music</span></button>
+    <span class="hunt" title="Bear and kitten hunt"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#bear"></use></svg><span class="lbl" data-i18n="huntShort">Found</span> <b id="hunt-count">0/6</b></span>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="tr" aria-pressed="false">TR</button>
+    </div>
+  </div>
+</header>
+
+<!-- LOBBY -->
+<main>
+<section class="view" data-view="lobby">
+  <div class="hero">
+    <div>
+      <p class="eyebrow" data-i18n="eyebrow">Istanbul · Autumn 2026 · Hoş geldin</p>
+      <h1 id="hero-title"><span data-i18n="h1a">Ebru's</span><span data-i18n="h1b">First Exhibition</span></h1>
+      <p class="sub" data-i18n="sub">Art textiles, drawings and colour studies by Ebru.</p>
+      <div class="plaque" id="plaque">
+        <span data-i18n-html="hours"><b>Opening hours:</b> after sunset only. The artist is allergic to the sun.</span>
+        <span data-i18n-html="entry"><b>Entry:</b> one bear hug.</span>
+        <span data-i18n-html="guests"><b>Guests:</b> one artist, one Dracula.</span>
+      </div>
+      <div><button class="pill invite" type="button" data-music-toggle id="invite">♪ Play the songs Alex made for you</button></div>
+    </div>
+    <figure class="work hero-work" data-depth="-0.05">
+      <button class="frame" type="button" data-id="red" aria-label="Untitled (Red)"><img src="img/red.jpg" alt="Abstract art textile: dense red lines and splashes over black" width="1169" height="1155"></button>
+    </figure>
+  </div>
+
+  <div class="guide" data-guide="lobby" hidden></div>
+
+  <section class="lede">
+    <h2 data-i18n="noteH">A note from the curator</h2>
+    <div class="body">
+      <p data-i18n="note1">On 18 September I told you I wanted to make an “Ebru Art Gallery” for you. You said: no hurry, your own work comes first.</p>
+      <p data-i18n="note2">So I waited, and I kept every picture you sent me. Here they are, on a wall, with a light on each one.</p>
+      <p data-i18n="note3">Tap a work to see it bigger. Hold your finger on it to look closer. Most works have no name yet. You are the artist, so you can name them.</p>
+      <p class="sign" data-i18n="sign">Alex, your favourite student</p>
+    </div>
+  </section>
+
+  <section class="doors" aria-labelledby="doors-h">
+    <p class="eyebrow" id="doors-h" data-i18n="doorsH">Choose a room</p>
+    <div class="door-grid">
+      <a class="door" href="#room-1"><div class="pic"><img src="img/turquoise-storm.jpg" alt="" loading="lazy"></div><span class="eyebrow" data-i18n="navR1">Room 1</span><h3 data-i18n="r1">Art Textiles</h3><p data-i18n="r1d">Seven works and a wall view</p></a>
+      <a class="door" href="#room-2"><div class="pic"><img src="img/leopard.jpg" alt="" loading="lazy"></div><span class="eyebrow" data-i18n="navR2">Room 2</span><h3 data-i18n="r2">Drawings</h3><p data-i18n="r2d">Charcoal and pencil</p></a>
+      <a class="door" href="#room-3"><div class="pic"><img src="img/violet-spiral.jpg" alt="" loading="lazy"></div><span class="eyebrow" data-i18n="navR3">Room 3</span><h3 data-i18n="r3">Colour Studies</h3><p data-i18n="r3d">Five small questions about colour</p></a>
+    </div>
+    <div class="side-doors">
+      <a class="pill" href="#play" data-i18n="playPill">Play: Find the detail</a>
+      <a class="pill" href="#exit" data-i18n="exitPill">Music, notes and a secret</a>
+    </div>
+  </section>
+
+  <section class="reddot" aria-label="Red dots">
+    <span class="dot" aria-hidden="true"></span>
+    <p data-i18n="reddot">In a gallery, a red dot next to a work means it is sold. Here, a red dot means Alex loves it. Every work in this exhibition has one.</p>
+  </section>
+</section>
+
+<!-- ROOMS -->
+<section class="view" data-view="room-1" hidden>
+  <div class="room-head">
+    <div><p class="eyebrow" data-i18n="navR1">Room 1</p><h2 data-i18n="r1">Art Textiles</h2><p class="tr" data-i18n="r1tr">Sanat Tekstili</p></div>
+    <div class="intro"><p data-i18n="r1intro">Ebru builds a surface with colour, line and layers. Later, in Photoshop, she gives it the look of real fabric. Some works here are still before that last step, like a visit to her studio.</p><div class="guide" data-guide="room-1" hidden></div></div>
+  </div>
+  <div class="hang hang-1" id="hang-1"></div>
+  <div class="install" id="install"></div>
+  <div class="next"><a class="pill" href="#lobby" data-i18n="backLobby">← Lobby</a><a class="big" href="#room-2" data-i18n="toR2">Next: Drawings →</a></div>
+</section>
+
+<section class="view" data-view="room-2" hidden>
+  <div class="room-head">
+    <div><p class="eyebrow" data-i18n="navR2">Room 2</p><h2 data-i18n="r2">Drawings</h2><p class="tr" data-i18n="r2tr">Karakalem</p></div>
+    <div class="intro"><p data-i18n="r2intro">At university, Ebru made 100 drawings a week, for just one class. Her fingers got blisters from holding the pencil.</p><div class="guide" data-guide="room-2" hidden></div></div>
+  </div>
+  <div class="hang hang-2" id="hang-2"></div>
+  <div class="next"><a class="pill" href="#room-1" data-i18n="backR1">← Room 1</a><a class="big" href="#room-3" data-i18n="toR3">Next: Colour Studies →</a></div>
+</section>
+
+<section class="view" data-view="room-3" hidden>
+  <div class="room-head">
+    <div><p class="eyebrow" data-i18n="navR3">Room 3</p><h2 data-i18n="r3">Colour Studies</h2><p class="tr" data-i18n="r3tr">Renk Çalışmaları</p></div>
+    <div class="intro"><p data-i18n="r3intro">Five small studies. Each one asks a simple question: what happens when red meets red, or when blue turns in a circle?</p><div class="guide" data-guide="room-3" hidden></div></div>
+  </div>
+  <div class="hang hang-3" id="hang-3"></div>
+  <div class="next"><a class="pill" href="#room-2" data-i18n="backR2">← Room 2</a><a class="big" href="#play" data-i18n="toPlay">Next: Find the detail →</a></div>
+</section>
+
+<!-- PLAY -->
+<section class="view" data-view="play" hidden>
+  <div class="game">
+    <div class="game-head" id="game-head">
+      <p class="eyebrow" data-i18n="navPlay">Play</p>
+      <h2 data-i18n="gameH">Find the detail</h2>
+      <p data-i18n="gameP">Here is a small piece of one of your works. Which work is it from?</p>
+    </div>
+    <p class="round" id="round"></p>
+    <div class="loupe-view" id="loupe-view" role="img" aria-label="A close-up detail"></div>
+    <div class="choices" id="choices"></div>
+    <p class="feedback" id="feedback" aria-live="polite"></p>
+    <div id="game-actions"></div>
+  </div>
+  <div class="next"><a class="pill" href="#room-3" data-i18n="backR3">← Room 3</a><a class="big" href="#exit" data-i18n="toExit">Before you go →</a></div>
+</section>
+
+<!-- EXIT -->
+<section class="view" data-view="exit" hidden>
+  <div class="room-head">
+    <div><p class="eyebrow" data-i18n="navExit">Exit</p><h2 data-i18n="exitH">Before you go</h2></div>
+    <div class="intro"><p data-i18n="exitIntro">Music, a box for a note, and the names you gave your works.</p><div class="guide" data-guide="exit" hidden></div></div>
+  </div>
+  <div class="exit-grid">
+    <section aria-labelledby="music-h">
+      <h3 id="music-h" data-i18n="musicH">Music corner</h3>
+      <p class="eyebrow sub-h" data-i18n="ownSongsH">Songs Alex made for you</p>
+      <div class="songs" id="own-songs"></div>
+      <p class="eyebrow sub-h" data-i18n="herSongsH">Songs she loves</p>
+      <div class="music" id="music">
+        <div class="record"><span class="disc" aria-hidden="true"></span><div><h4>A Thousand Years</h4><p data-i18n="song1">Christina Perri. For the Dracula: a vampire love song, of course.</p>
+          <div class="links"><a href="https://open.spotify.com/search/A%20Thousand%20Years%20Christina%20Perri" target="_blank" rel="noopener">Spotify</a><a href="https://www.youtube.com/results?search_query=A+Thousand+Years+Christina+Perri" target="_blank" rel="noopener">YouTube</a></div></div></div>
+        <div class="record"><span class="disc" aria-hidden="true"></span><div><h4>Sil Baştan</h4><p data-i18n="song2">Şebnem Ferah. The artist's favourite.</p>
+          <div class="links"><a href="https://open.spotify.com/search/Sil%20Ba%C5%9Ftan%20%C5%9Eebnem%20Ferah" target="_blank" rel="noopener">Spotify</a><a href="https://www.youtube.com/results?search_query=Sil+Ba%C5%9Ftan+%C5%9Eebnem+Ferah" target="_blank" rel="noopener">YouTube</a></div></div></div>
+      </div>
+      <h3 data-i18n="titlesH">Names you gave</h3>
+      <ul class="titles-list" id="titles-list"></ul>
+    </section>
+    <section aria-labelledby="notebox-h">
+      <h3 id="notebox-h" data-i18n="noteBoxH">A note for the curator</h3>
+      <form class="note-box" id="note-form">
+        <label class="sr" for="note-text" data-i18n="noteBoxH">A note for the curator</label>
+        <textarea id="note-text" maxlength="2000" data-i18n-ph="notePh" placeholder="Write anything, in Turkish or English."></textarea>
+        <div class="guide-row"><button class="pill" type="submit" data-i18n="send">Send</button><span class="status" id="note-status" aria-live="polite"></span></div>
+      </form>
+      <div class="secret" id="secret"></div>
+    </section>
+  </div>
+  <div class="next"><a class="pill" href="#play" data-i18n="backPlay">← Play</a><a class="big" href="#lobby" data-i18n="toLobby">Back to the lobby →</a></div>
+</section>
+</main>
+
+<footer><span data-i18n="foot1">All works © Ebru. Curated with love by Alex.</span><span data-i18n="foot2">A private exhibition for one guest.</span></footer>
+</div>
+
+<dialog id="lb" aria-label="Artwork viewer">
+  <div class="lb">
+    <div class="lb-stage" id="lb-stage"><div class="lb-pic"><img id="lb-img" alt="" draggable="false"></div></div>
+    <div class="lb-bar">
+      <button class="btn" id="lb-prev" type="button" aria-label="Previous work">&#8592;</button>
+      <div class="lb-text"><h3 id="lb-title"></h3><p class="note" id="lb-note"></p><p class="lb-hint" id="lb-hint"></p></div>
+      <button class="btn" id="lb-next" type="button" aria-label="Next work">&#8594;</button>
+    </div>
+    <button class="btn lb-close" id="lb-close" type="button" aria-label="Close">&#215;</button>
+    <div class="lens" id="lens" hidden></div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden></div>
+<div class="gate" id="gate" hidden></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="bear" viewBox="0 0 40 40">
+    <circle cx="10" cy="11" r="6.5" fill="#8A5A3B" stroke="#fff" stroke-width="1.5"/><circle cx="30" cy="11" r="6.5" fill="#8A5A3B" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="10" cy="11" r="3" fill="#C99A72"/><circle cx="30" cy="11" r="3" fill="#C99A72"/>
+    <circle cx="20" cy="22" r="14" fill="#8A5A3B" stroke="#fff" stroke-width="1.5"/>
+    <ellipse cx="20" cy="27" rx="7" ry="5.5" fill="#E2C2A2"/>
+    <circle cx="14.5" cy="20" r="1.8" fill="#2A1A12"/><circle cx="25.5" cy="20" r="1.8" fill="#2A1A12"/>
+    <ellipse cx="20" cy="24.6" rx="2.6" ry="1.9" fill="#2A1A12"/>
+    <path d="M17.6 28.4q2.4 2 4.8 0" stroke="#2A1A12" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="kitten" viewBox="0 0 40 40">
+    <path d="M7 6 L15 13 L9 18 Z" fill="#E59A4E" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M33 6 L25 13 L31 18 Z" fill="#E59A4E" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+    <ellipse cx="20" cy="23" rx="14" ry="12.5" fill="#E59A4E" stroke="#fff" stroke-width="1.5"/>
+    <path d="M10 9.5 L13 12.5 L10.5 14.5 Z M30 9.5 L27 12.5 L29.5 14.5 Z" fill="#F7C9A8"/>
+    <ellipse cx="14.5" cy="22" rx="1.9" ry="2.4" fill="#2A1A12"/><ellipse cx="25.5" cy="22" rx="1.9" ry="2.4" fill="#2A1A12"/>
+    <path d="M18.6 26h2.8l-1.4 1.6z" fill="#D9586A"/>
+    <path d="M20 27.6q-1.6 2-3.4 1M20 27.6q1.6 2 3.4 1" stroke="#2A1A12" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <path d="M4 24h7M4.5 27.5l6.5-1.5M36 24h-7M35.5 27.5l-6.5-1.5" stroke="#fff" stroke-width="1" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<script>
+(function(){
+"use strict";
+/* ---------- Settings Alex can change ---------- */
+// Optional welcome gate. Put a word here (for example a Turkish word she taught you) and she must type it to enter.
+// Leave it empty ("") for no gate. It is a cute door, not real security.
+var GATE_WORD = "";
+
+// Your songs. To add one: put the file in the music folder, add a line here, and (optionally) give it a room below.
+var SONGS = {
+  "seni-cok":     {file:"music/seni-cok-seviyorum.mp3",            title:"Seni Çok Çok Çok Çok Seviyorum", length:"2:55"},
+  "never-burden": {file:"music/youre-never-my-burden.mp3",         title:"You're Never My Burden",          length:"4:55"},
+  "little-kitten":{file:"music/my-little-kitten.mp3",              title:"My Little Kitten",                length:"3:01"},
+  "light-on":     {file:"music/ill-leave-the-light-on-or-you.m4a", title:"I'll Leave the Light On For You", length:"2:59"}
+};
+// Which song plays when she walks into each room. Rooms not listed keep the song that is already playing.
+var ROOM_MUSIC = {"lobby":"seni-cok", "room-1":"never-burden", "room-2":"little-kitten", "room-3":"light-on"};
+var MUSIC_VOLUME = 0.5;
+
+/* ---------- Words ---------- */
+var T = {
+en:{
+ brand:"Ebru's First Exhibition", navLobby:"Lobby", navR1:"Room 1", navR2:"Room 2", navR3:"Room 3", navPlay:"Play", navExit:"Exit", huntShort:"Found",
+ eyebrow:"Istanbul · Autumn 2026 · Hoş geldin", h1a:"Ebru's", h1b:"First Exhibition", sub:"Art textiles, drawings and colour studies by Ebru.",
+ hours:"<b>Opening hours:</b> after sunset only. The artist is allergic to the sun.", entry:"<b>Entry:</b> one bear hug.", guests:"<b>Guests:</b> one artist, one Dracula.",
+ noteH:"A note from the curator",
+ note1:"On 18 September I told you I wanted to make an “Ebru Art Gallery” for you. You said: no hurry, your own work comes first.",
+ note2:"So I waited, and I kept every picture you sent me. Here they are, on a wall, with a light on each one.",
+ note3:"Tap a work to see it bigger. Hold your finger on it to look closer. Most works have no name yet. You are the artist, so you can name them.",
+ sign:"Alex, your favourite student", doorsH:"Choose a room",
+ r1:"Art Textiles", r1d:"Seven works and a wall view", r2:"Drawings", r2d:"Charcoal and pencil", r3:"Colour Studies", r3d:"Five small questions about colour",
+ r1tr:"Sanat Tekstili", r2tr:"Karakalem", r3tr:"Renk Çalışmaları",
+ playPill:"Play: Find the detail", exitPill:"Music, notes and a secret",
+ reddot:"In a gallery, a red dot next to a work means it is sold. Here, a red dot means Alex loves it. Every work in this exhibition has one.",
+ r1intro:"Ebru builds a surface with colour, line and layers. Later, in Photoshop, she gives it the look of real fabric. Some works here are still before that last step, like a visit to her studio.",
+ r2intro:"At university, Ebru made 100 drawings a week, for just one class. Her fingers got blisters from holding the pencil.",
+ r3intro:"Five small studies. Each one asks a simple question: what happens when red meets red, or when blue turns in a circle?",
+ backLobby:"← Lobby", backR1:"← Room 1", backR2:"← Room 2", backR3:"← Room 3", backPlay:"← Play",
+ toR2:"Next: Drawings →", toR3:"Next: Colour Studies →", toPlay:"Next: Find the detail →", toExit:"Before you go →", toLobby:"Back to the lobby →",
+ gameH:"Find the detail", gameP:"Here is a small piece of one of your works. Which work is it from?",
+ round:"Round {n} of {t}", yes:["Yes! Of course you knew.","Correct, öğretmenim!","Yes! Perfect eye.","Right! Visual memory.","Yes! Every thread."], no:"Not this one. Try again.",
+ nextRound:"Next", again:"Play again", final:"You found {s} of {t} on the first try.", finalMsg:"You know every thread of your work.",
+ exitH:"Before you go", exitIntro:"Music, a box for a note, and the names you gave your works.",
+ musicLabel:"Music", musicOn:"♪ Play the songs Alex made for you", musicPause:"❚❚ Pause the music", nowPlaying:"Now playing",
+ ownSongsH:"Songs Alex made for you", ownSongCap:"Made by Alex for Ebru", herSongsH:"Songs she loves",
+ musicH:"Music corner", song1:"Christina Perri. For the Dracula: a vampire love song, of course.", song2:"Şebnem Ferah. The artist's favourite.",
+ titlesH:"Names you gave", noTitles:"No names yet. In any room, tap “Name this work” under a work.", was:"was",
+ noteBoxH:"A note for the curator", notePh:"Write anything, in Turkish or English.", send:"Send",
+ sentRemote:"Sent. Alex will read it.", sentLocal:"Saved on this device.", sendFail:"It did not send. Please try again.", empty:"Write a few words first.",
+ secretLocked:"A secret note is waiting here. Find all 6 bears and kittens hidden in the rooms to open it.",
+ secretOpen:"You found them all. The bear and the kitten are always together. A big bear hug for you, my kitten.",
+ foot1:"All works © Ebru. Curated with love by Alex.", foot2:"A private exhibition for one guest.",
+ nameIt:"Name this work", rename:"Change the name", save:"Save", cancel:"Cancel", namedBy:"Named by the artist", nameLabel:"Title for this work",
+ savedTitle:"Saved. The work has a name now.",
+ foundBear:"You found a bear! {n}/6", foundKitten:"You found a kitten! {n}/6",
+ hidden:"Something is hiding here",
+ fromAlex:"A few words from Alex", listen:"Listen to Alex", pause:"Pause", readAlong:"Read along", hideText:"Hide text", guideLabel:"Audio guide",
+ hintMouse:"Move over the work to look closer.", hintTouch:"Hold your finger on the work to look closer. Swipe for the next one.",
+ gateH:"Teacher, what's today's word?", gateBtn:"Open the door", gateWrong:"Hmm, not that one. Try again.",
+ installH:"Wall view and details", installNote:"You told me a gallery should show a work like this, on a real wall. I listened, öğretmenim.", detail:"Detail"
+},
+tr:{
+ brand:"Ebru'nun İlk Sergisi", navLobby:"Lobi", navR1:"1. Salon", navR2:"2. Salon", navR3:"3. Salon", navPlay:"Oyun", navExit:"Çıkış", huntShort:"Bulunan",
+ eyebrow:"İstanbul · Sonbahar 2026 · Hoş geldin", h1a:"Ebru'nun", h1b:"İlk Sergisi", sub:"Ebru'nun sanat tekstilleri, çizimleri ve renk çalışmaları.",
+ hours:"<b>Ziyaret saatleri:</b> sadece gün batımından sonra. Sanatçının güneşe alerjisi var.", entry:"<b>Giriş ücreti:</b> bir ayı sarılması.", guests:"<b>Misafirler:</b> bir sanatçı, bir Drakula.",
+ noteH:"Küratörden bir not",
+ note1:"18 Eylül'de sana bir “Ebru Sanat Galerisi” yapmak istediğimi söylemiştim. Sen de: acele etme, önce kendi işin, demiştin.",
+ note2:"Ben de bekledim ve bana gönderdiğin her resmi sakladım. İşte hepsi burada, bir duvarda, her birinin üstünde bir ışıkla.",
+ note3:"Büyütmek için bir esere dokun. Daha yakından bakmak için parmağını üstünde tut. Çoğu eserin henüz adı yok. Sanatçı sensin, onlara sen isim verebilirsin.",
+ sign:"Alex, en sevdiğin öğrencin", doorsH:"Bir salon seç",
+ r1:"Sanat Tekstilleri", r1d:"Yedi eser ve bir duvar görünümü", r2:"Çizimler", r2d:"Karakalem ve kurşun kalem", r3:"Renk Çalışmaları", r3d:"Renk üzerine beş küçük soru",
+ r1tr:"Art Textiles", r2tr:"Drawings", r3tr:"Colour Studies",
+ playPill:"Oyun: Detayı bul", exitPill:"Müzik, notlar ve bir sır",
+ reddot:"Galeride bir eserin yanındaki kırmızı nokta, eserin satıldığı anlamına gelir. Burada ise Alex'in onu sevdiği anlamına gelir. Bu sergideki her eserde bir tane var.",
+ r1intro:"Ebru renkle, çizgiyle ve katmanlarla bir yüzey oluşturuyor. Sonra Photoshop'ta ona gerçek kumaş görünümü veriyor. Buradaki bazı eserler henüz bu son adımdan önce, sanki atölyesini ziyaret ediyormuşuz gibi.",
+ r2intro:"Ebru lisansta, sadece bir ders için haftada 100 çizim yaptı. Kalem tutmaktan parmakları su topladı.",
+ r3intro:"Beş küçük çalışma. Her biri basit bir soru soruyor: kırmızı kırmızıyla buluşunca ne olur, ya da mavi bir daire içinde dönünce?",
+ backLobby:"← Lobi", backR1:"← 1. Salon", backR2:"← 2. Salon", backR3:"← 3. Salon", backPlay:"← Oyun",
+ toR2:"Sıradaki: Çizimler →", toR3:"Sıradaki: Renk Çalışmaları →", toPlay:"Sıradaki: Detayı bul →", toExit:"Gitmeden önce →", toLobby:"Lobiye dön →",
+ gameH:"Detayı bul", gameP:"İşte eserlerinden birinden küçük bir parça. Hangi esere ait?",
+ round:"Tur {n} / {t}", yes:["Evet! Tabii ki bildin.","Doğru, öğretmenim!","Evet! Harika bir göz.","Doğru! Görsel hafıza.","Evet! Her ipliği tanıyorsun."], no:"Bu değil. Tekrar dene.",
+ nextRound:"Sonraki", again:"Tekrar oyna", final:"{t} detaydan {s} tanesini ilk denemede buldun.", finalMsg:"Eserlerinin her ipliğini tanıyorsun.",
+ exitH:"Gitmeden önce", exitIntro:"Müzik, bir not kutusu ve eserlerine verdiğin isimler.",
+ musicLabel:"Müzik", musicOn:"♪ Alex'in senin için yaptığı şarkıları çal", musicPause:"❚❚ Müziği duraklat", nowPlaying:"Şimdi çalıyor",
+ ownSongsH:"Alex'in senin için yaptığı şarkılar", ownSongCap:"Alex'in Ebru için yaptığı şarkı", herSongsH:"Sevdiği şarkılar",
+ musicH:"Müzik köşesi", song1:"Christina Perri. Drakula için: elbette bir vampir aşk şarkısı.", song2:"Şebnem Ferah. Sanatçının en sevdiği şarkı.",
+ titlesH:"Verdiğin isimler", noTitles:"Henüz isim yok. Herhangi bir salonda, eserin altındaki “Bu esere isim ver”e dokun.", was:"önceki adı",
+ noteBoxH:"Küratöre bir not", notePh:"Ne istersen yaz, Türkçe ya da İngilizce.", send:"Gönder",
+ sentRemote:"Gönderildi. Alex okuyacak.", sentLocal:"Bu cihaza kaydedildi.", sendFail:"Gönderilemedi. Lütfen tekrar dene.", empty:"Önce birkaç kelime yaz.",
+ secretLocked:"Burada gizli bir not seni bekliyor. Açmak için salonlara saklanmış 6 ayıyı ve kediyi bul.",
+ secretOpen:"Hepsini buldun. Ayı ve kedi her zaman birlikte. Sana kocaman bir ayı sarılması, kedim.",
+ foot1:"Tüm eserler © Ebru. Alex tarafından sevgiyle hazırlandı.", foot2:"Tek bir misafir için özel bir sergi.",
+ nameIt:"Bu esere isim ver", rename:"İsmi değiştir", save:"Kaydet", cancel:"Vazgeç", namedBy:"Sanatçı tarafından adlandırıldı", nameLabel:"Bu eserin adı",
+ savedTitle:"Kaydedildi. Eserin artık bir adı var.",
+ foundBear:"Bir ayı buldun! {n}/6", foundKitten:"Bir kedi buldun! {n}/6",
+ hidden:"Burada bir şey saklanıyor",
+ fromAlex:"Alex'ten birkaç söz", listen:"Alex'i dinle", pause:"Duraklat", readAlong:"Metni oku", hideText:"Metni gizle", guideLabel:"Sesli rehber",
+ hintMouse:"Daha yakından bakmak için imleci eserin üstünde gezdir.", hintTouch:"Daha yakından bakmak için parmağını eserin üstünde tut. Sonraki eser için kaydır.",
+ gateH:"Öğretmenim, bugünün kelimesi ne?", gateBtn:"Kapıyı aç", gateWrong:"Hmm, bu değil. Tekrar dene.",
+ installH:"Duvar görünümü ve detaylar", installNote:"Bir galeride eserin böyle, gerçek bir duvarda görünmesi gerektiğini söylemiştin. Dinledim, öğretmenim.", detail:"Detay"
+}};
+
+/* Audio guide transcripts: these match the script Alex records. */
+var GUIDE = {
+ "lobby":{en:"Hoş geldin, aşkım. Welcome to your first exhibition. I am Alex, your guide tonight. Don't worry, it is after sunset, so Dracula is safe. Take your time and walk slowly. Tap any work to see it bigger, and hold your finger on it to look closer. When you are ready, go to Room One.",
+          tr:"Hoş geldin aşkım. İlk sergine hoş geldin. Ben Alex, bu gece senin rehberinim. Merak etme, güneş battı, Drakula güvende. Acele etme, yavaşça gez. Bir eseri büyük görmek için üstüne dokun, daha yakından bakmak için parmağını üstünde tut. Hazır olduğunda 1. Salon'a geç."},
+ "room-1":{en:"This is Room One: art textiles. The red one is the work everyone loves. But you know me. I love all of them. The blue and gold one was your profile picture. On the first night, I did not even look at it. Now I cannot stop looking. Most of these works have no name yet. You are the artist. Please give them names.",
+          tr:"Burası 1. Salon: sanat tekstilleri. Kırmızı olan, herkesin sevdiği eser. Ama beni bilirsin, ben hepsini seviyorum. Mavi ve altın olan senin profil resmindi. İlk gece ona bakmamıştım bile. Şimdi gözümü alamıyorum. Bu eserlerin çoğunun henüz adı yok. Sanatçı sensin. Lütfen onlara isim ver."},
+ "room-2":{en:"Room Two: drawings. Karakalem. You told me you made one hundred drawings a week, for one class, and your fingers hurt. I can see all those hours here. The leopard is ready to jump. And the glass bottle taught me a new word: negative drawing. Thank you, öğretmenim.",
+          tr:"2. Salon: çizimler. Karakalem. Bana tek bir ders için haftada yüz çizim yaptığını ve parmaklarının acıdığını anlatmıştın. O saatlerin hepsini burada görebiliyorum. Leopar atlamaya hazır. Cam şişe de bana yeni bir kelime öğretti: negatif çalışma. Teşekkürler, öğretmenim."},
+ "room-3":{en:"Room Three: colour studies. Five small questions about colour. Red inside red. A shell in red and blue. A yellow mosaic, like sunlight, but safe for my Dracula. Now look at the violet spiral for ten seconds. Does it turn? Or do you turn?",
+          tr:"3. Salon: renk çalışmaları. Renk üzerine beş küçük soru. Kırmızının içinde kırmızı. Kırmızı ve mavi bir deniz kabuğu. Güneş ışığı gibi sarı bir mozaik, ama benim Drakulam için güvenli. Şimdi mor sarmala on saniye bak. Dönüyor mu? Yoksa sen mi dönüyorsun?"},
+ "exit":{en:"Thank you for visiting, my artist. Before you go, here are the songs I made for you, and a little box where you can write me a note. And somewhere in these rooms, a bear and a kitten are hiding. Can you find them all? İyi geceler, bitanem.",
+          tr:"Ziyaretin için teşekkürler, sanatçım. Gitmeden önce burada senin için yaptığım şarkılar ve bana not yazabileceğin küçük bir kutu var. Ve bu salonların bir yerlerinde bir ayı ve bir kedi saklanıyor. Hepsini bulabilir misin? İyi geceler, bitanem."}
+};
+
+/* ---------- Works ---------- */
+function W(id,room,num,w,h,ten,ttr,men,mtr,nen,ntr,alt){return {id:id,room:room,num:num,img:"img/"+id+".jpg",w:w,h:h,title:{en:ten,tr:ttr},medium:{en:men,tr:mtr},note:{en:nen,tr:ntr},alt:alt};}
+var WORKS = [
+ W("red",1,"00",1169,1155,"Untitled (Red)","İsimsiz (Kırmızı)","Art textile","Sanat tekstili","You said everyone loves the red one. I love all of them, because I don't want to be “everyone”.","Herkesin kırmızıyı sevdiğini söyledin. Ben hepsini seviyorum, çünkü “herkes” olmak istemiyorum.","Abstract art textile: dense red lines and splashes over black"),
+ W("blue-gold",1,"01",947,948,"Untitled (Blue and Gold)","İsimsiz (Mavi ve Altın)","Art textile, fabric effect","Sanat tekstili, kumaş efekti","The first work you sent me, on 17 September. It was your profile picture all along.","Bana gönderdiğin ilk eser, 17 Eylül'de. Meğer baştan beri profil resminmiş.","Art textile with a fabric effect: blue and violet threads with flecks of gold"),
+ W("turquoise-orange",1,"02",1182,1169,"Untitled (Turquoise and Orange)","İsimsiz (Turkuaz ve Turuncu)","Art textile","Sanat tekstili","Like the sea at night, with a little fire on the water.","Gece denizi gibi, suyun üstünde küçük bir ateşle.","Turquoise and orange shapes with thin orange lines on black"),
+ W("rose-squares",1,"03",1193,1202,"Untitled (Rose Squares)","İsimsiz (Pembe Kareler)","Art textile","Sanat tekstili","Soft squares, like old windows in the rain.","Yumuşak kareler, yağmurda eski pencereler gibi.","Layered pink and plum squares with soft white texture"),
+ W("turquoise-storm",1,"04",1179,1172,"Untitled (Turquoise Storm)","İsimsiz (Turkuaz Fırtına)","Art textile","Sanat tekstili","So many lines. I follow one with my eyes and get happily lost.","O kadar çok çizgi var ki. Birini gözümle takip ediyorum ve mutlu bir şekilde kayboluyorum.","Many fine lines in white, yellow, red and turquoise crossing over black"),
+ W("violet-threads",1,"05",1142,1131,"Untitled (Violet Threads)","İsimsiz (Mor İplikler)","Art textile","Sanat tekstili","Every time I look closely, I find a new colour.","Her yakından baktığımda yeni bir renk buluyorum.","Violet, turquoise and orange threads tangled over a dark ground"),
+ W("fashion-study",1,"06",1220,1600,"Fashion Study","Moda Çalışması","Fabric surface by Ebru, art-textile technique","Kumaş yüzeyi Ebru'ya ait, sanat tekstili tekniği","Your fabric, made into fashion. Your art can leave the wall and walk.","Senin kumaşın, modaya dönüşmüş. Sanatın duvardan inip yürüyebiliyor.","Fashion illustration of a woman in a fan-pleated top and pale blue shorts, with close-ups of the fabric"),
+ W("leopard",2,"07",626,905,"Leopard","Leopar","Charcoal on paper, university years","Kâğıt üzerine karakalem, lisans yılları","Look at the eyes. He is ready to jump.","Gözlerine bak. Atlamaya hazır.","Charcoal drawing of a leopard walking forward with its mouth open"),
+ W("glass-bottle",2,"08",1200,1600,"Glass Bottle","Cam Şişe","Negative drawing, charcoal","Negatif çalışma, karakalem","You taught me: in a negative drawing, glass looks more real. Your student remembers.","Bana öğrettin: negatif çalışmada cam daha gerçekçi görünür. Öğrencin unutmadı.","Charcoal drawing of a glass bottle half full of water"),
+ W("portrait",2,"09",694,1003,"Portrait Study","Portre Çalışması","Drawing on paper","Kâğıt üzerine çizim","Visual memory: seeing the whole face and every small detail at once. You have it.","Görsel hafıza: bütünü ve her küçük detayı aynı anda görmek. Sende var.","Pencil portrait of a man with curly hair and a headband"),
+ W("red-squares",3,"10",1600,1594,"Red Squares","Kırmızı Kareler","Colour study","Renk çalışması","Red inside red inside red.","Kırmızının içinde kırmızı, onun içinde yine kırmızı.","Four panels of nested red, pink and plum squares"),
+ W("shell",3,"11",1589,1600,"Shell","Deniz Kabuğu","Colour study","Renk çalışması","A shell from the sea, in red and blue.","Denizden bir kabuk, kırmızı ve mavi.","A spiral shell painted in dark red and blue"),
+ W("yellow-mosaic",3,"12",1600,1592,"Yellow Mosaic","Sarı Mozaik","Colour study","Renk çalışması","Sunlight, but safe for Dracula.","Güneş ışığı, ama Drakula için güvenli.","Mosaic of pale yellow and ochre tiles and triangles"),
+ W("blue-circle",3,"13",1482,1600,"Blue Circle","Mavi Daire","Colour study","Renk çalışması","Like light moving through water.","Suyun içinden geçen ışık gibi.","A circle of blue and white strokes fanning out"),
+ W("violet-spiral",3,"14",1582,1600,"Violet Spiral","Mor Sarmal","Colour study","Renk çalışması","It turns when I look at it. Or maybe I turn.","Baktığımda dönüyor. Ya da belki ben dönüyorum.","A spiral of violet, black and white strokes")
+];
+var EXTRAS = [
+ {id:"installation",img:"img/installation.jpg",w:1109,h:1600,alt:"The turquoise and orange work hanging on a white wall",kind:"install"},
+ {id:"detail-1",img:"img/detail-1.jpg",w:947,h:772,alt:"Close-up of the fabric surface in turquoise and orange",kind:"detail"},
+ {id:"detail-2",img:"img/detail-2.jpg",w:947,h:945,alt:"Close-up of orange threads on turquoise",kind:"detail"}
+];
+var BY = {}; WORKS.forEach(function(w){BY[w.id]=w;}); EXTRAS.forEach(function(w){BY[w.id]=w;});
+
+var HUNT = [
+ {id:"h1",view:"lobby",kind:"kitten",anchor:"#plaque",pos:"right:0;top:-44px"},
+ {id:"h2",view:"room-1",kind:"bear",anchor:"#w-turquoise-storm",pos:"top:-18px;right:-12px"},
+ {id:"h3",view:"room-2",kind:"kitten",anchor:"#w-glass-bottle",pos:"top:-24px;left:22px"},
+ {id:"h4",view:"room-3",kind:"bear",anchor:"#w-violet-spiral .label",pos:"right:-4px;top:-2px"},
+ {id:"h5",view:"play",kind:"kitten",anchor:"#game-head",pos:"right:-6px;top:4px"},
+ {id:"h6",view:"exit",kind:"bear",anchor:"#music",pos:"right:6px;bottom:-12px"}
+];
+
+/* ---------- Small helpers ---------- */
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
+function fmt(s,o){return s.replace(/\{(\w+)\}/g,function(_,k){return o[k];});}
+function lsGet(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+var toastT;
+function toast(msg){var t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true;},2600);}
+
+/* ---------- Language ---------- */
+var lang = lsGet("efe-lang", null) || ((navigator.language||"").toLowerCase().indexOf("tr")===0 ? "tr" : "en");
+function t(k){return (T[lang]&&T[lang][k]!==undefined)?T[lang][k]:T.en[k];}
+
+/* ---------- Storage: Cloudflare KV through /api when it exists, otherwise this device ---------- */
+var store = {remote:false, titles:lsGet("efe-titles",{})};
+function loadRemote(){
+  return fetch("api/state",{cache:"no-store"}).then(function(r){
+    var ct=r.headers.get("content-type")||"";
+    if(!r.ok||ct.indexOf("application/json")<0) throw 0;
+    return r.json();
+  }).then(function(d){
+    store.remote=true;
+    if(d&&d.titles){Object.keys(d.titles).forEach(function(k){store.titles[k]=d.titles[k];});lsSet("efe-titles",store.titles);}
+  }).catch(function(){store.remote=false;});
+}
+function saveTitle(id,title){
+  if(title) store.titles[id]={title:title,at:Date.now()}; else delete store.titles[id];
+  lsSet("efe-titles",store.titles);
+  if(store.remote){fetch("api/title",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({id:id,title:title})}).catch(function(){});}
+}
+function sendNote(text){
+  var notes=lsGet("efe-notes",[]);notes.push({text:text,at:Date.now()});lsSet("efe-notes",notes);
+  if(!store.remote) return Promise.resolve("local");
+  return fetch("api/note",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({text:text})})
+    .then(function(r){if(!r.ok) throw 0;return "remote";});
+}
+function titleOf(w){var c=store.titles[w.id];return c&&c.title?c.title:w.title[lang];}
+
+/* ---------- Rendering ---------- */
+function figure(w){
+  var c=store.titles[w.id], named=!!(c&&c.title);
+  return '<figure class="work" id="w-'+w.id+'" data-depth="'+(w.num%2?0.04:-0.03)+'">'+
+   '<button class="frame" type="button" data-id="'+w.id+'" aria-label="'+esc(titleOf(w))+'"><img src="'+w.img+'" alt="'+esc(w.alt)+'" width="'+w.w+'" height="'+w.h+'" loading="lazy"></button>'+
+   '<figcaption class="label"><span class="num">'+w.num+'</span><div class="lt">'+
+   '<h3>'+esc(titleOf(w))+' <span class="dot" title="Alex loves it"></span></h3>'+
+   (named?'<span class="named">'+esc(t("namedBy"))+'</span>':'')+
+   '<span class="medium">'+esc(w.medium[lang])+'</span>'+
+   '<p class="note">'+esc(w.note[lang])+'</p>'+
+   '<button class="name-btn" type="button" data-name="'+w.id+'">✎ '+esc(named?t("rename"):t("nameIt"))+'</button>'+
+   '</div></figcaption></figure>';
+}
+function renderRooms(){
+  [1,2,3].forEach(function(n){
+    $("#hang-"+n).innerHTML=WORKS.filter(function(w){return w.room===n;}).map(figure).join("");
+  });
+  var ex=function(id){var e=BY[id];return '<figure class="work" style="margin:0"><button class="frame" type="button" data-id="'+id+'" aria-label="'+esc(id==="installation"?t("installH"):t("detail"))+'"><img src="'+e.img+'" alt="'+esc(e.alt)+'" width="'+e.w+'" height="'+e.h+'" loading="lazy"></button></figure>';};
+  $("#install").innerHTML=ex("installation")+'<div style="display:grid;gap:20px"><div class="details">'+ex("detail-1")+ex("detail-2")+'</div><div class="cap"><h3>'+esc(t("installH"))+'</h3><p class="note">'+esc(t("installNote"))+'</p></div></div>';
+  var hb=$(".hero-work .frame"); if(hb) hb.setAttribute("aria-label",titleOf(BY.red));
+  placeCritters();
+}
+function renderStatic(){
+  document.documentElement.lang=lang;
+  $$("[data-i18n]").forEach(function(el){el.textContent=t(el.getAttribute("data-i18n"));});
+  $$("[data-i18n-html]").forEach(function(el){el.innerHTML=t(el.getAttribute("data-i18n-html"));});
+  $$("[data-i18n-ph]").forEach(function(el){el.placeholder=t(el.getAttribute("data-i18n-ph"));});
+  $$(".lang button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.lang===lang));});
+}
+function renderTitles(){
+  var ids=Object.keys(store.titles).filter(function(k){return BY[k]&&store.titles[k].title;});
+  $("#titles-list").innerHTML=ids.length?ids.map(function(k){var w=BY[k];return '<li><span class="her">'+esc(store.titles[k].title)+'</span><span class="was">'+esc(t("was"))+': '+esc(w.title[lang])+'</span></li>';}).join(""):'<li class="was">'+esc(t("noTitles"))+'</li>';
+}
+function renderAll(){renderStatic();renderRooms();renderTitles();renderSecret();renderGuides();renderGame(false);if(typeof renderSongs==="function")renderSongs();}
+
+/* ---------- Naming ---------- */
+document.addEventListener("click",function(e){
+  var b=e.target.closest(".name-btn"); if(!b) return;
+  var id=b.dataset.name, w=BY[id], lt=b.parentNode;
+  if($(".name-form",lt)) return;
+  var f=document.createElement("form"); f.className="name-form";
+  var cur=(store.titles[id]&&store.titles[id].title)||"";
+  f.innerHTML='<label class="sr" for="n-'+id+'">'+esc(t("nameLabel"))+'</label><input id="n-'+id+'" maxlength="80" value="'+esc(cur)+'" placeholder="'+esc(w.title[lang])+'"><button type="submit">'+esc(t("save"))+'</button><button type="button" class="ghost">'+esc(t("cancel"))+'</button>';
+  b.hidden=true; lt.appendChild(f); $("input",f).focus();
+  $(".ghost",f).onclick=function(){f.remove();b.hidden=false;};
+  f.onsubmit=function(ev){ev.preventDefault();var v=$("input",f).value.trim().slice(0,80);saveTitle(id,v);renderRooms();renderTitles();if(v) toast(t("savedTitle"));var nb=$('#w-'+id+' .name-btn');if(nb) nb.focus();};
+});
+
+/* ---------- Hidden bear and kitten ---------- */
+var found=lsGet("efe-hunt",[]);
+function placeCritters(){
+  HUNT.forEach(function(h){
+    var a=$(h.anchor); if(!a) return;
+    if(getComputedStyle(a).position==="static") a.style.position="relative";
+    var old=$('[data-critter="'+h.id+'"]'); if(old&&old.parentNode!==a) old.remove(); else if(old) return;
+    var b=document.createElement("button"); b.type="button"; b.className="critter"+(found.indexOf(h.id)>=0?" found":""); b.dataset.critter=h.id;
+    b.setAttribute("aria-label",t("hidden")); b.style.cssText=h.pos;
+    b.innerHTML='<svg viewBox="0 0 40 40" aria-hidden="true"><use href="#'+h.kind+'"></use></svg>';
+    a.appendChild(b);
+  });
+  $("#hunt-count").textContent=found.length+"/6";
+}
+document.addEventListener("click",function(e){
+  var b=e.target.closest(".critter"); if(!b) return;
+  e.stopPropagation();
+  var id=b.dataset.critter; if(found.indexOf(id)>=0) return;
+  found.push(id); lsSet("efe-hunt",found); b.classList.add("found");
+  var h=HUNT.filter(function(x){return x.id===id;})[0];
+  $("#hunt-count").textContent=found.length+"/6";
+  toast(fmt(t(h.kind==="bear"?"foundBear":"foundKitten"),{n:found.length}));
+  renderSecret();
+},true);
+function renderSecret(){
+  var open=found.length>=6, s=$("#secret");
+  s.className="secret"+(open?" open":"");
+  s.innerHTML=open?'<svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true"><use href="#bear"></use></svg><p class="msg">'+esc(t("secretOpen"))+'</p><p class="sign">Alex</p>':'<p class="was">'+esc(t("secretLocked"))+'</p>';
+}
+
+/* ---------- Audio guide ---------- */
+var audio=new Audio(); audio.preload="metadata"; var audioFor=null; var available={};
+function probe(view){
+  var names=["audio/"+view+".m4a","audio/"+view+".mp3"];
+  function tryN(i){
+    if(i>=names.length) return Promise.resolve(null);
+    return fetch(names[i],{method:"HEAD",cache:"no-store"}).then(function(r){
+      var ct=r.headers.get("content-type")||"";
+      if(r.ok&&ct.indexOf("text/html")<0) return names[i];
+      return tryN(i+1);
+    }).catch(function(){return tryN(i+1);});
+  }
+  return tryN(0);
+}
+function renderGuides(){
+  $$("[data-guide]").forEach(function(g){
+    var v=g.dataset.guide, has=!!available[v];
+    g.hidden=false;
+    var playing=audioFor===v&&!audio.paused;
+    var showText=g.dataset.text==="1";
+    g.innerHTML='<span class="eyebrow">'+esc(has?t("guideLabel"):t("fromAlex"))+'</span><div class="guide-row">'+(has?'<button class="play" type="button" data-play="'+v+'"><span class="ic" aria-hidden="true">'+(playing?"❚❚":"▶")+'</span>'+esc(playing?t("pause"):t("listen"))+'</button><span class="time" data-time="'+v+'"></span>':'')+'<button class="readalong" type="button" data-read="'+v+'">'+esc(showText?t("hideText"):t("readAlong"))+'</button></div>'+(showText?'<p class="transcript">'+esc(GUIDE[v][lang])+'</p>':'');
+  });
+}
+document.addEventListener("click",function(e){
+  var p=e.target.closest("[data-play]");
+  if(p){var v=p.dataset.play;
+    if(audioFor!==v){audio.src=available[v];audioFor=v;}
+    if(audio.paused){audio.play().catch(function(){});}else audio.pause();
+    return;}
+  var r=e.target.closest("[data-read]");
+  if(r){var g=r.closest("[data-guide]");g.dataset.text=g.dataset.text==="1"?"0":"1";renderGuides();}
+});
+["play","pause","ended"].forEach(function(ev){audio.addEventListener(ev,renderGuides);});
+
+/* ---------- Background music (Alex's songs) ---------- */
+var music=new Audio(); music.preload="none";
+var ORDER=Object.keys(SONGS);
+var M={on:lsGet("efe-music",false), cur:null, unlocked:false, heldForGuide:false};
+var currentView="lobby";
+function setVol(v){try{music.volume=v;}catch(e){}}
+function fade(to,ms,cb){
+  var from=music.volume, t0=performance.now();
+  function step(n){var k=Math.min(1,(n-t0)/ms);setVol(from+(to-from)*k);if(k<1)requestAnimationFrame(step);else if(cb)cb();}
+  requestAnimationFrame(step);
+}
+function playSong(id){
+  if(!SONGS[id]) return;
+  if(M.cur===id&&!music.paused) return;
+  var go=function(){
+    if(M.cur!==id){M.cur=id;music.src=SONGS[id].file;}
+    setVol(0);
+    music.play().then(function(){fade(MUSIC_VOLUME,1200);}).catch(function(){});
+    renderMusic();
+  };
+  if(!music.paused&&M.cur&&M.cur!==id) fade(0,600,go); else go();
+}
+function songForView(v){return ROOM_MUSIC[v]||M.cur||ORDER[0];}
+function startMusic(id){
+  M.on=true;M.unlocked=true;M.heldForGuide=false;lsSet("efe-music",true);
+  if(!audio.paused) audio.pause();
+  playSong(id||songForView(currentView));
+}
+function stopMusic(){
+  M.on=false;M.heldForGuide=false;lsSet("efe-music",false);
+  fade(0,400,function(){music.pause();renderMusic();});
+}
+music.addEventListener("ended",function(){var i=ORDER.indexOf(M.cur);M.cur=null;playSong(ORDER[(i+1)%ORDER.length]);});
+music.addEventListener("play",renderMusic);
+music.addEventListener("pause",renderMusic);
+function renderMusic(){
+  var playing=!music.paused&&!!M.cur;
+  $$(".music-btn").forEach(function(b){
+    b.setAttribute("aria-pressed",String(playing));
+    $(".np",b).textContent=playing?SONGS[M.cur].title:t("musicLabel");
+    b.setAttribute("aria-label",playing?t("musicPause"):t("musicOn"));
+  });
+  var inv=$("#invite"); if(inv) inv.textContent=playing?t("musicPause"):t("musicOn");
+  $$("button.record[data-song]").forEach(function(r){r.classList.toggle("playing",playing&&r.dataset.song===M.cur);});
+}
+function renderSongs(){
+  $("#own-songs").innerHTML=ORDER.map(function(id){var s=SONGS[id];
+    return '<button class="record" type="button" data-song="'+id+'"><span class="disc" aria-hidden="true"></span><span class="song-text"><span class="song-t">'+esc(s.title)+'</span><span class="song-c">'+esc(t("ownSongCap"))+' · '+esc(s.length)+'</span></span></button>';}).join("");
+  renderMusic();
+}
+document.addEventListener("click",function(e){
+  var tg=e.target.closest("[data-music-toggle]");
+  if(tg){ if(!music.paused&&M.cur) stopMusic(); else startMusic(); return; }
+  var sg=e.target.closest("[data-song]");
+  if(sg){ var id=sg.dataset.song; if(M.cur===id&&!music.paused){stopMusic();} else startMusic(id); }
+});
+// A browser only lets music start after a tap. If she turned music on before, the first tap of a visit starts it again.
+function unlock(e){
+  if(M.unlocked||!M.on) return;
+  if(e.target.closest&&e.target.closest("[data-music-toggle],[data-song],[data-play]")) return;
+  M.unlocked=true; playSong(songForView(currentView));
+}
+document.addEventListener("pointerdown",unlock,true);
+document.addEventListener("keydown",unlock,true);
+// The voice guide and the music never play at the same time.
+audio.addEventListener("play",function(){if(!music.paused){M.heldForGuide=true;fade(0,300,function(){music.pause();});}});
+function resumeAfterGuide(){if(M.heldForGuide&&M.on){M.heldForGuide=false;setVol(0);music.play().then(function(){fade(MUSIC_VOLUME,1200);}).catch(function(){});}}
+audio.addEventListener("pause",resumeAfterGuide);
+audio.addEventListener("ended",resumeAfterGuide);
+audio.addEventListener("timeupdate",function(){var el=$('[data-time="'+audioFor+'"]');if(!el||!audio.duration)return;var r=Math.max(0,audio.duration-audio.currentTime);el.textContent=Math.floor(r/60)+":"+String(Math.floor(r%60)).padStart(2,"0");});
+
+/* ---------- Routing ---------- */
+var VIEWS=["lobby","room-1","room-2","room-3","play","exit"];
+function route(){
+  var h=(location.hash||"").replace("#","");
+  var v=VIEWS.indexOf(h)>=0?h:"lobby";
+  $$(".view").forEach(function(s){s.hidden=s.dataset.view!==v;});
+  $$(".nav a").forEach(function(a){if(a.getAttribute("href")==="#"+v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  document.body.classList.toggle("rooms",v.indexOf("room")===0);
+  currentView=v;
+  if(!audio.paused&&audioFor!==v) audio.pause();
+  if(M.on&&M.unlocked&&audio.paused&&ROOM_MUSIC[v]&&ROOM_MUSIC[v]!==M.cur) playSong(ROOM_MUSIC[v]);
+  window.scrollTo(0,0);
+  if(v==="play"&&!game.started) newGame();
+  if(v==="exit") renderTitles();
+  var cur=$('.nav a[aria-current="page"]'); if(cur&&cur.scrollIntoView) try{cur.scrollIntoView({block:"nearest",inline:"center"});}catch(e){}
+  parallax();
+}
+window.addEventListener("hashchange",route);
+
+/* ---------- Game: find the detail ---------- */
+var game={started:false,rounds:[],i:0,score:0,tries:0,done:false};
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var x=a[i];a[i]=a[j];a[j]=x;}return a;}
+function newGame(){
+  var pool=shuffle(WORKS.filter(function(w){return w.id!=="fashion-study";}).slice());
+  game={started:true,i:0,score:0,tries:0,done:false,answered:false,rounds:pool.slice(0,5).map(function(w){
+    var others=shuffle(WORKS.filter(function(o){return o.id!==w.id&&o.id!=="fashion-study";})).slice(0,2);
+    return {target:w,options:shuffle([w].concat(others)),x:15+Math.random()*70,y:15+Math.random()*70};
+  })};
+  renderGame(true);
+}
+function renderGame(fresh){
+  if(!game.started) return;
+  var acts=$("#game-actions"), lv=$("#loupe-view");
+  if(game.done){
+    $("#round").textContent="";
+    lv.style.backgroundImage="url('img/red.jpg')";lv.style.backgroundSize="cover";lv.style.backgroundPosition="50% 50%";
+    $("#choices").innerHTML="";
+    $("#feedback").textContent=fmt(t("final"),{s:game.score,t:game.rounds.length})+" "+t("finalMsg");
+    acts.innerHTML='<button class="pill" type="button" id="g-again">'+esc(t("again"))+'</button>';
+    $("#g-again").onclick=newGame; return;
+  }
+  var r=game.rounds[game.i];
+  $("#round").textContent=fmt(t("round"),{n:game.i+1,t:game.rounds.length});
+  lv.style.backgroundImage="url('"+r.target.img+"')";
+  if(fresh||!game.answered){lv.style.backgroundSize="520% auto";lv.style.backgroundPosition=r.x+"% "+r.y+"%";}
+  $("#choices").innerHTML=r.options.map(function(o){return '<button class="choice" type="button" data-pick="'+o.id+'" aria-label="'+esc(titleOf(o))+'"><img src="'+o.img+'" alt=""></button>';}).join("");
+  if(fresh){$("#feedback").textContent="";acts.innerHTML="";}
+  else if(game.answered){$$(".choice").forEach(function(c){if(c.dataset.pick===r.target.id)c.classList.add("right");});acts.innerHTML='<button class="pill" type="button" id="g-next">'+esc(t("nextRound"))+' →</button>';$("#g-next").onclick=nextRound;}
+}
+function nextRound(){game.i++;game.tries=0;game.answered=false;if(game.i>=game.rounds.length)game.done=true;renderGame(true);}
+document.addEventListener("click",function(e){
+  var c=e.target.closest("[data-pick]"); if(!c||game.answered) return;
+  var r=game.rounds[game.i];
+  if(c.dataset.pick===r.target.id){
+    if(game.tries===0) game.score++;
+    game.answered=true; c.classList.add("right");
+    var lv=$("#loupe-view"); lv.style.backgroundSize="cover"; lv.style.backgroundPosition="50% 50%";
+    var y=t("yes"); $("#feedback").textContent=y[game.i%y.length];
+    $("#game-actions").innerHTML='<button class="pill" type="button" id="g-next">'+esc(t("nextRound"))+' →</button>';
+    $("#g-next").onclick=nextRound;
+  } else { game.tries++; c.classList.add("wrong"); c.disabled=true; $("#feedback").textContent=t("no"); }
+});
+
+/* ---------- Lightbox with magnifier ---------- */
+var dlg=$("#lb"), lbImg=$("#lb-img"), lens=$("#lens"), stage=$("#lb-stage");
+var list=[], idx=0, Z=2.6;
+function show(k){
+  idx=(k+list.length)%list.length;
+  var id=list[idx].dataset.id, w=BY[id];
+  lbImg.src=w.img; lbImg.alt=w.alt||"";
+  if(w.title){$("#lb-title").textContent=titleOf(w);$("#lb-note").textContent=w.note[lang];}
+  else {$("#lb-title").textContent=id==="installation"?t("installH"):t("detail");$("#lb-note").textContent=id==="installation"?t("installNote"):"";}
+  $("#lb-hint").textContent=matchMedia("(hover: hover)").matches?t("hintMouse"):t("hintTouch");
+  hideLens();
+}
+document.addEventListener("click",function(e){
+  var f=e.target.closest(".frame"); if(!f) return;
+  var view=f.closest(".view");
+  list=$$(".frame",view); idx=list.indexOf(f); show(idx);
+  try{dlg.showModal();}catch(err){dlg.setAttribute("open","");}
+});
+function closeLb(){hideLens();if(dlg.close)dlg.close();else dlg.removeAttribute("open");}
+$("#lb-prev").onclick=function(){show(idx-1);};
+$("#lb-next").onclick=function(){show(idx+1);};
+$("#lb-close").onclick=closeLb;
+document.addEventListener("keydown",function(e){if(!dlg.open)return;if(e.key==="ArrowLeft")show(idx-1);if(e.key==="ArrowRight")show(idx+1);});
+function hideLens(){lens.hidden=true;}
+function lensAt(cx,cy,touch){
+  var r=lbImg.getBoundingClientRect(), x=cx-r.left, y=cy-r.top;
+  if(x<0||y<0||x>r.width||y>r.height){hideLens();return;}
+  lens.hidden=false;
+  var s=lens.offsetWidth||170;
+  lens.style.left=(cx-s/2)+"px"; lens.style.top=(cy-s/2-(touch?s*0.8:0))+"px";
+  lens.style.backgroundImage='url("'+lbImg.src+'")';
+  lens.style.backgroundSize=(r.width*Z)+"px "+(r.height*Z)+"px";
+  lens.style.backgroundPosition=(-(x*Z-s/2))+"px "+(-(y*Z-s/2))+"px";
+}
+var pd=null, holdT=null, lensOn=false;
+stage.addEventListener("pointerdown",function(e){
+  if(e.pointerType==="mouse") return;
+  pd={x:e.clientX,y:e.clientY,onImg:e.target===lbImg};
+  if(pd.onImg) holdT=setTimeout(function(){lensOn=true;lensAt(pd.x,pd.y,true);},180);
+});
+stage.addEventListener("pointermove",function(e){
+  if(e.pointerType==="mouse"){if(e.target===lbImg)lensAt(e.clientX,e.clientY,false);else hideLens();return;}
+  if(!pd) return;
+  if(lensOn){e.preventDefault();lensAt(e.clientX,e.clientY,true);}
+  else if(Math.abs(e.clientX-pd.x)>12||Math.abs(e.clientY-pd.y)>12){clearTimeout(holdT);}
+});
+stage.addEventListener("pointerleave",function(e){if(e.pointerType==="mouse")hideLens();});
+function endTouch(e){
+  if(e.pointerType==="mouse"){return;}
+  clearTimeout(holdT);
+  if(lensOn){lensOn=false;hideLens();pd=null;return;}
+  if(pd){var dx=e.clientX-pd.x, dy=e.clientY-pd.y;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)) show(dx<0?idx+1:idx-1);
+    else if(Math.abs(dx)<10&&Math.abs(dy)<10&&!pd.onImg) closeLb();}
+  pd=null;
+}
+stage.addEventListener("pointerup",endTouch);
+stage.addEventListener("pointercancel",function(){clearTimeout(holdT);lensOn=false;hideLens();pd=null;});
+stage.addEventListener("click",function(e){if(e.target===stage)closeLb();});
+stage.addEventListener("contextmenu",function(e){e.preventDefault();});
+
+/* ---------- Parallax and spotlight ---------- */
+var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches, ticking=false;
+function parallax(){
+  if(reduce) return;
+  var vh=innerHeight;
+  $$(".view:not([hidden]) .work[data-depth]").forEach(function(el){
+    var r=el.getBoundingClientRect(); if(r.bottom<-200||r.top>vh+200) return;
+    var d=parseFloat(el.dataset.depth)||0; var c=r.top+r.height/2-vh/2;
+    el.style.setProperty("--py",(c*d).toFixed(1)+"px");
+  });
+  ticking=false;
+}
+addEventListener("scroll",function(){if(!ticking){ticking=true;requestAnimationFrame(parallax);}},{passive:true});
+addEventListener("resize",parallax);
+var torch=$(".torch");
+addEventListener("pointermove",function(e){if(reduce)return;torch.style.setProperty("--mx",e.clientX+"px");torch.style.setProperty("--my",e.clientY+"px");},{passive:true});
+
+/* ---------- Language switch ---------- */
+$$(".lang button").forEach(function(b){b.onclick=function(){lang=b.dataset.lang;lsSet("efe-lang",lang);renderAll();};});
+
+/* ---------- Note form ---------- */
+$("#note-form").addEventListener("submit",function(e){
+  e.preventDefault();
+  var ta=$("#note-text"), st=$("#note-status"), v=ta.value.trim();
+  if(!v){st.textContent=t("empty");return;}
+  sendNote(v).then(function(where){st.textContent=t(where==="remote"?"sentRemote":"sentLocal");ta.value="";})
+    .catch(function(){st.textContent=t("sendFail");});
+});
+
+/* ---------- Welcome gate ---------- */
+function gate(){
+  if(!GATE_WORD||lsGet("efe-gate",false)) return;
+  var g=$("#gate"); g.hidden=false;
+  g.innerHTML='<form id="gate-form"><svg viewBox="0 0 40 40" width="56" height="56" aria-hidden="true"><use href="#kitten"></use></svg><h2>'+esc(t("gateH"))+'</h2><label class="sr" for="gate-in">'+esc(t("gateH"))+'</label><input id="gate-in" autocomplete="off" autocapitalize="off"><button class="pill" type="submit">'+esc(t("gateBtn"))+'</button><p class="status" id="gate-st" aria-live="polite"></p></form>';
+  var norm=function(s){return s.trim().toLocaleLowerCase("tr");};
+  $("#gate-form").onsubmit=function(e){e.preventDefault();
+    if(norm($("#gate-in").value)===norm(GATE_WORD)){lsSet("efe-gate",true);g.hidden=true;}
+    else $("#gate-st").textContent=t("gateWrong");};
+}
+
+/* ---------- Start ---------- */
+renderAll(); route(); gate();
+loadRemote().then(function(){renderRooms();renderTitles();});
+Promise.all(["lobby","room-1","room-2","room-3","exit"].map(function(v){return probe(v).then(function(u){if(u)available[v]=u;});})).then(renderGuides);
+})();
+</script>
+
+</body>
+</html>
