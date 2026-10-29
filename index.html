@@ -538,14 +538,23 @@
       transform: translate3d(0, var(--py, 0px), 0)
     }
 
+    /* Spotlight: a soft oval of light on the wall around the top of each frame.
+       closest-side makes it fade to nothing at every edge, so no box shows. */
     .work::before {
       content: "";
       position: absolute;
-      inset: -48px -36px auto;
-      height: 70%;
+      inset: -90px -48px auto;
+      height: calc(55% + 90px);
       pointer-events: none;
-      background: radial-gradient(ellipse farthest-side at 50% 0%, var(--spot), transparent);
+      background: radial-gradient(closest-side, var(--spot), transparent);
       z-index: 0
+    }
+
+    /* Keep text and buttons above the light from the artwork beside or below them */
+    .hero>div:first-child,
+    .room-head {
+      position: relative;
+      z-index: 2
     }
 
     .frame {
@@ -1171,9 +1180,13 @@
 
       .js .view .work:not(.hero-work) .frame,
       .js .view .work .label {
-        opacity: 0;
-        transform: translateY(16px);
         transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1)
+      }
+
+      .js .view .work:not(.hero-work):not(.in) .frame,
+      .js .view .work:not(.in) .label {
+        opacity: 0;
+        transform: translateY(16px)
       }
 
       .js .work.in .frame,
@@ -1479,7 +1492,7 @@
       }
 
       .work::before {
-        inset: -40px 0 auto
+        inset: -70px 0 auto
       }
     }
 
@@ -1543,7 +1556,6 @@
       }
     }
   </style>
-  <base target="_blank">
 </head>
 
 <body>
@@ -2057,12 +2069,7 @@
         });
         var ex = function (id) { var e = BY[id]; return '<figure class="work" style="margin:0"><button class="frame" type="button" data-id="' + id + '" aria-label="' + esc(id === "installation" ? t("installH") : t("detail")) + '"><img src="' + e.img + '" alt="' + esc(e.alt) + '" width="' + e.w + '" height="' + e.h + '" loading="lazy"></button></figure>'; };
         $("#install").innerHTML = ex("installation") + '<div style="display:grid;gap:20px"><div class="details">' + ex("detail-1") + ex("detail-2") + '</div><div class="cap"><h3>' + esc(t("installH")) + '</h3><p class="note">' + esc(t("installNote")) + '</p></div></div>';
-        var hw = $(".hero-work");
-        if (hw) {
-          var hc = store.titles.red, hnamed = !!(hc && hc.title);
-          hw.innerHTML = '<button class="frame" type="button" data-id="red" aria-label="' + esc(titleOf(BY.red)) + '"><img src="' + BY.red.img + '" alt="' + esc(BY.red.alt) + '" width="' + BY.red.w + '" height="' + BY.red.h + '"></button>' +
-            '<figcaption class="label"><span class="num">' + BY.red.num + '</span><div class="lt"><h3>' + esc(titleOf(BY.red)) + ' <span class="dot" title="Alex loves it"></span></h3>' + (hnamed ? '<span class="named">' + esc(t("namedBy")) + '</span>' : '') + '<span class="medium">' + esc(BY.red.medium[lang]) + '</span><p class="note">' + esc(BY.red.note[lang]) + '</p></div></figcaption>';
-        }
+        var hb = $(".hero-work .frame"); if (hb) hb.setAttribute("aria-label", titleOf(BY.red));
         placeCritters();
         watchWorks();
       }
