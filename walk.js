@@ -637,7 +637,7 @@
   /* ---------- Conversation cards ---------- */
   function openCard(who) {
     if (!card) return;
-    card.hidden = false; card.dataset.who = who;
+    card.hidden = false; card.dataset.who = who; if (guideEl) guideEl.hidden = true;
     var h = "<button class='wk-x' type='button' aria-label='" + esc(wt("close")) + "'>×</button>";
     if (who === "guard") {
       h += "<p class='wk-who'>" + esc(wt("guardName")) + "</p>";
@@ -660,7 +660,7 @@
     };
     if (f && matchMedia("(hover: hover)").matches) setTimeout(function () { var i = card.querySelector("#wk-pass"); if (i) i.focus(); }, 50);
   }
-  function closeCard() { if (card) { card.hidden = true; card.innerHTML = ""; } }
+  function closeCard() { if (card) { card.hidden = true; card.innerHTML = ""; } renderGuide(); }
   function cardClick(e) {
     var b = e.target.closest("button"); if (!b) return;
     if (b.classList.contains("wk-x") || b.dataset.act === "close") { closeCard(); return; }
@@ -775,6 +775,7 @@
   function fmtTime(sec) { sec = Math.max(0, Math.round(sec)); return Math.floor(sec / 60) + ":" + String(sec % 60).padStart(2, "0"); }
   function renderGuide() {
     if (!guideEl || !E.guide) return;
+    if (card && !card.hidden) { guideEl.hidden = true; return; }   // keep out of the way while someone is talking to her
     var g = E.guide, key = guideKeyShown(), st = g.state(), has = g.has(key), txt = g.text(key);
     if (!has && !txt) { guideEl.hidden = true; return; }
     guideEl.hidden = false;

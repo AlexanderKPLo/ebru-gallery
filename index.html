@@ -1638,6 +1638,7 @@
     }
 
     .wk-card {
+      z-index: 3;
       position: absolute;
       left: 50%;
       bottom: calc(16px + env(safe-area-inset-bottom, 0px));
@@ -2952,7 +2953,7 @@
 
       /* ---------- 3D walk: loader and what it can use from this page ---------- */
       var THREE_URL = window.EFE_THREE_URL || "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js";
-      var WALK_URL = "walk.js?v=8";
+      var WALK_URL = "walk.js?v=9";
       var walkListeners = [], walkLoading = false;
       function notify() { walkListeners.forEach(function (fn) { try { fn(); } catch (e) { } }); }
       function setBarH() { var b = $(".bar"); if (b) document.documentElement.style.setProperty("--barH", Math.round(b.getBoundingClientRect().bottom) + "px"); }
