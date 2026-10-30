@@ -1957,6 +1957,77 @@
       color: var(--wall)
     }
 
+    .door-walk {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: clamp(16px, 3vw, 36px);
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: clamp(10px, 1.6vw, 16px);
+      background: var(--wall-2)
+    }
+
+    .door-walk .pic {
+      aspect-ratio: 2 / 1;
+      max-width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--mat)
+    }
+
+    .door-walk .pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .6s ease
+    }
+
+    .door-walk:hover .pic img {
+      transform: scale(1.03)
+    }
+
+    .dw-text {
+      display: grid;
+      gap: 10px;
+      justify-items: start;
+      min-width: 0
+    }
+
+    .dw-text h3 {
+      font-size: clamp(26px, 3vw, 36px);
+      line-height: 1.05
+    }
+
+    .dw-text p {
+      font-size: 15px;
+      color: var(--muted)
+    }
+
+    .dw-badge {
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #fff;
+      background: var(--red);
+      border-radius: 999px;
+      padding: 3px 10px
+    }
+
+    .room-head .pill-walk {
+      justify-self: start
+    }
+
+    @media (max-width:700px) {
+      .door-walk {
+        grid-template-columns: minmax(0, 1fr)
+      }
+    }
+
     @media (max-width:520px) {
       .wk-map {
         width: 136px;
@@ -2060,8 +2131,16 @@
               <p data-i18n="r3d">Five small questions about colour</p>
             </a>
           </div>
+          <a class="door-walk" href="#walk">
+            <div class="pic"><img src="img/walk-preview.jpg" alt="" loading="lazy" width="1200" height="600"></div>
+            <div class="dw-text">
+              <span class="dw-badge" data-i18n="walkBadge">3D · New</span>
+              <h3 data-i18n="walkBannerH">Walk through the gallery</h3>
+              <p data-i18n="walkBannerP">Meet the security bear, find the hidden bears and kittens, and have a coffee with Alex.</p>
+              <span class="pill pill-walk" data-i18n="walkGo">Enter in 3D →</span>
+            </div>
+          </a>
           <div class="side-doors">
-            <a class="pill pill-walk" href="#walk" data-i18n="walkPill">Walk through the gallery (3D)</a>
             <a class="pill" href="#play" data-i18n="playPill">Play: Find the detail</a>
             <a class="pill" href="#exit" data-i18n="exitPill">Music, notes and a secret</a>
           </div>
@@ -2086,6 +2165,7 @@
             <p data-i18n="r1intro">Ebru builds a surface with colour, line and layers. Later, in Photoshop, she gives it
               the look of real fabric. Some works here are still before that last step, like a visit to her studio.</p>
             <div class="guide" data-guide="room-1" hidden></div>
+            <a class="pill pill-walk" href="#walk" data-walk-to="r1" data-i18n="walkThisRoom">Walk through this room in 3D</a>
           </div>
         </div>
         <div class="hang hang-1" id="hang-1"></div>
@@ -2105,6 +2185,7 @@
             <p data-i18n="r2intro">At university, Ebru made 100 drawings a week, for just one class. Her fingers got
               blisters from holding the pencil.</p>
             <div class="guide" data-guide="room-2" hidden></div>
+            <a class="pill pill-walk" href="#walk" data-walk-to="r2" data-i18n="walkThisRoom">Walk through this room in 3D</a>
           </div>
         </div>
         <div class="hang hang-2" id="hang-2"></div>
@@ -2123,6 +2204,7 @@
             <p data-i18n="r3intro">Five small studies. Each one asks a simple question: what happens when red meets red,
               or when blue turns in a circle?</p>
             <div class="guide" data-guide="room-3" hidden></div>
+            <a class="pill pill-walk" href="#walk" data-walk-to="r3" data-i18n="walkThisRoom">Walk through this room in 3D</a>
           </div>
         </div>
         <div class="hang hang-3" id="hang-3"></div>
@@ -2322,6 +2404,7 @@
           secretLocked: "A secret note is waiting here. Find all 6 bears and kittens hidden in the rooms to open it.",
           secretOpen: "You found them all. The bear and the kitten are always together. A big bear hug for you, my kitten.",
           foot1: "All works © Ebru. Curated with love by Alex.", foot2: "A private exhibition for one guest.",
+          walkBadge: "3D · New", walkBannerH: "Walk through the gallery", walkBannerP: "Meet the security bear, find the hidden bears and kittens, and have a coffee with Alex.", walkGo: "Enter in 3D →", walkThisRoom: "Walk through this room in 3D",
           navWalk: "Walk", walkPill: "Walk through the gallery (3D)", walkLoading: "Opening the doors…", walkFail: "The 3D walk could not open on this device. You can still visit",
           walkHint: "Tap the floor to walk · Drag to look around · Tap a work to see it",
           questsBtn: "Quests", q1: "Walk into Room 1", q2: "Look closely at 3 works ({n}/3)", q3: "Give one work a name", q4: "Find the bears and kittens ({n}/6)", qDone: "All quests done. Alex has a surprise for you.",
@@ -2366,6 +2449,7 @@
           secretLocked: "Burada gizli bir not seni bekliyor. Açmak için salonlara saklanmış 6 ayıyı ve kediyi bul.",
           secretOpen: "Hepsini buldun. Ayı ve kedi her zaman birlikte. Sana kocaman bir ayı sarılması, kedim.",
           foot1: "Tüm eserler © Ebru. Alex tarafından sevgiyle hazırlandı.", foot2: "Tek bir misafir için özel bir sergi.",
+          walkBadge: "3D · Yeni", walkBannerH: "Galeride yürü", walkBannerP: "Güvenlik ayısıyla tanış, saklanan ayıları ve kedileri bul, Alex'le bir kahve iç.", walkGo: "3D olarak gir →", walkThisRoom: "Bu salonu 3D gez",
           navWalk: "Yürü", walkPill: "Galeride yürü (3D)", walkLoading: "Kapılar açılıyor…", walkFail: "3D gezinti bu cihazda açılamadı. Yine de ziyaret edebilirsin:",
           walkHint: "Yürümek için zemine dokun · Etrafa bakmak için sürükle · Görmek için esere dokun",
           questsBtn: "Görevler", q1: "1. Salon'a gir", q2: "3 esere yakından bak ({n}/3)", q3: "Bir esere isim ver", q4: "Ayıları ve kedileri bul ({n}/6)", qDone: "Tüm görevler tamam. Alex'in sana bir sürprizi var.",
@@ -2849,11 +2933,12 @@
 
       /* ---------- 3D walk: loader and what it can use from this page ---------- */
       var THREE_URL = window.EFE_THREE_URL || "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js";
-      var WALK_URL = "walk.js?v=6";
+      var WALK_URL = "walk.js?v=7";
       var walkListeners = [], walkLoading = false;
       function notify() { walkListeners.forEach(function (fn) { try { fn(); } catch (e) { } }); }
       function setBarH() { var b = $(".bar"); if (b) document.documentElement.style.setProperty("--barH", Math.round(b.getBoundingClientRect().bottom) + "px"); }
       function loadScript(src) { return new Promise(function (res, rej) { var s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
+      document.addEventListener("click", function (e) { var a = e.target.closest("[data-walk-to]"); if (a) lsSet("efe-walk-goto", a.dataset.walkTo); });
       function startWalk() {
         setBarH();
         if (window.EFEWalk) { window.EFEWalk.resume(); return; }

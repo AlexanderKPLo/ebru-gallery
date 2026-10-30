@@ -867,7 +867,19 @@
     setInterval(function () { if (running && camera) lsSet("efe-walk-pos", { x: +camera.position.x.toFixed(2), z: +camera.position.z.toFixed(2), yaw: +yaw.toFixed(2) }); }, 3000);
     updateQuests(); resume();
   }
-  function resume() { if (!inited || running) return; running = true; resize(); last = performance.now(); requestAnimationFrame(frame); E.playRoom(ROOMS[curRoom].music); }
+  // When she taps "Walk through this room in 3D" on a room page, start in that room (the bear still checks the ticket first).
+  var ENTRY = { lobby: [0, 11.0, 0], r1: [0, 3.4, 0], r2: [11.2, 2.4, 0], r3: [21.4, 1.8, 0] };
+  function applyGoto() {
+    var to = lsGet("efe-walk-goto", null); if (!to || !ENTRY[to]) return;
+    try { localStorage.removeItem("efe-walk-goto"); } catch (e) { }
+    glide = null; closeCard();
+    if (to !== "lobby" && !hasTicket()) {
+      camera.position.set(1.1, EYE, 7.5); var g = npcByWho("guard"); yaw = Math.atan2(-(g.position.x - 1.1), -(g.position.z - 7.5)); pitch = 0;
+      setTimeout(function () { openCard("guard"); }, 400); return;
+    }
+    var e = ENTRY[to]; camera.position.set(e[0], EYE, e[1]); yaw = e[2]; pitch = 0.02;
+  }
+  function resume() { if (!inited || running) return; running = true; applyGoto(); resize(); last = performance.now(); requestAnimationFrame(frame); E.playRoom(ROOMS[curRoom].music); }
   function pause() { running = false; glide = null; ptr = null; }
   function state() { return camera ? { x: +camera.position.x.toFixed(2), z: +camera.position.z.toFixed(2), yaw: +yaw.toFixed(2), room: curRoom, moving: !!glide } : null; }
   function project(x, y, z) { var v = new T.Vector3(x, y, z).project(camera), r = renderer.domElement.getBoundingClientRect(); return { x: r.left + (v.x + 1) / 2 * r.width, y: r.top + (1 - v.y) / 2 * r.height, front: v.z < 1 }; }
