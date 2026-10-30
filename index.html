@@ -1846,10 +1846,99 @@
       color: var(--hand)
     }
 
+    .wk-guide {
+      position: absolute;
+      left: max(12px, env(safe-area-inset-left, 0px));
+      bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      display: grid;
+      gap: 8px;
+      justify-items: start;
+      max-width: min(380px, calc(100% - 24px))
+    }
+
+    .wk-gbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      background: var(--wall);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 14px 6px 6px;
+      box-shadow: 0 10px 24px -14px var(--shadow)
+    }
+
+    .wk-gplay {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 0;
+      background: none;
+      padding: 0;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--ink);
+      cursor: pointer
+    }
+
+    .wk-gplay .ic {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--red);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 11px
+    }
+
+    .wk-gtime {
+      font-size: 12px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums
+    }
+
+    .wk-gread {
+      border: 0;
+      background: none;
+      padding: 0;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer
+    }
+
+    .wk-geye {
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+      background: var(--wall);
+      border-radius: 6px;
+      padding: 2px 8px
+    }
+
+    .wk-cap {
+      background: var(--wall);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--red);
+      border-radius: 10px;
+      padding: 10px 14px;
+      max-height: 34vh;
+      overflow-y: auto;
+      font-family: var(--script);
+      font-size: 22px;
+      line-height: 1.3;
+      color: var(--hand);
+      box-shadow: 0 14px 30px -16px var(--shadow)
+    }
+
     .wk-hint {
       position: absolute;
       left: 50%;
-      bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+      bottom: calc(84px + env(safe-area-inset-bottom, 0px));
       transform: translateX(-50%);
       background: var(--ink);
       color: var(--wall);
@@ -2760,7 +2849,7 @@
 
       /* ---------- 3D walk: loader and what it can use from this page ---------- */
       var THREE_URL = window.EFE_THREE_URL || "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js";
-      var WALK_URL = "walk.js?v=5";
+      var WALK_URL = "walk.js?v=6";
       var walkListeners = [], walkLoading = false;
       function notify() { walkListeners.forEach(function (fn) { try { fn(); } catch (e) { } }); }
       function setBarH() { var b = $(".bar"); if (b) document.documentElement.style.setProperty("--barH", Math.round(b.getBoundingClientRect().bottom) + "px"); }
@@ -2797,6 +2886,14 @@
         isFound: function (id) { return found.indexOf(id) >= 0; },
         foundCount: function () { return found.length; },
         playRoom: function (v) { if (M.on && M.unlocked && audio.paused && ROOM_MUSIC[v] && ROOM_MUSIC[v] !== M.cur) playSong(ROOM_MUSIC[v]); },
+        guide: {
+          has: function (v) { return !!available[v]; },
+          text: function (v) { return GUIDE[v] ? GUIDE[v][lang] : ""; },
+          play: function (v) { if (!available[v]) return; if (audioFor !== v) { audio.src = available[v]; audioFor = v; } audio.play().catch(function () { }); },
+          pause: function () { audio.pause(); },
+          state: function () { return { playing: !audio.paused, key: audioFor, t: audio.currentTime || 0, d: audio.duration || 0 }; },
+          on: function (fn) { ["play", "pause", "ended", "timeupdate", "loadedmetadata"].forEach(function (ev) { audio.addEventListener(ev, fn); }); }
+        },
         on: function (fn) { walkListeners.push(fn); }
       };
 
@@ -2806,7 +2903,7 @@
       function watchWorks() { var ws = $$(".work"); if (!io) { ws.forEach(function (w) { w.classList.add("in"); }); return; } ws.forEach(function (w) { if (!w.classList.contains("in")) io.observe(w); }); }
       renderAll(); route(); gate();
       loadRemote().then(function () { renderRooms(); renderTitles(); });
-      Promise.all(["lobby", "room-1", "room-2", "room-3", "exit"].map(function (v) { return probe(v).then(function (u) { if (u) available[v] = u; }); })).then(renderGuides);
+      Promise.all(["lobby", "room-1", "room-2", "room-3", "exit"].map(function (v) { return probe(v).then(function (u) { if (u) available[v] = u; }); })).then(function () { renderGuides(); notify(); });
     })();
   </script>
 

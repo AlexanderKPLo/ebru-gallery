@@ -544,7 +544,7 @@
     redrawText();
     if (stage) stage.style.background = css("--wall");
   }
-  function redrawText() { labels.concat(texts).forEach(function (m) { redraw(m.material.map); }); updateQuests(); }
+  function redrawText() { labels.concat(texts).forEach(function (m) { redraw(m.material.map); }); updateQuests(); renderGuide(); }
 
   /* ---------- Where am I, and how do I get there ---------- */
   function inRoom(rk, p, m) { var R = ROOMS[rk]; m = m || 0; return p.x >= R.x0 - m && p.x <= R.x1 + m && p.z >= R.z0 - m && p.z <= R.z1 + m; }
@@ -767,6 +767,36 @@
   var fileEl = null;
   function hideHint() { if (hintShown && hintEl) { hintShown = false; hintEl.style.opacity = "0"; } }
 
+  /* ---------- Alex's voice guide, with read-along text ---------- */
+  var GKEY = { lobby: "lobby", r1: "room-1", r2: "room-2", r3: "room-3" };
+  var GNAME = { lobby: "navLobby", r1: "navR1", r2: "navR2", r3: "navR3" };
+  var guideEl = null, guideText = false;
+  function guideKeyShown() { var g = E.guide, st = g.state(); return st.playing && st.key ? st.key : GKEY[curRoom]; }
+  function fmtTime(sec) { sec = Math.max(0, Math.round(sec)); return Math.floor(sec / 60) + ":" + String(sec % 60).padStart(2, "0"); }
+  function renderGuide() {
+    if (!guideEl || !E.guide) return;
+    var g = E.guide, key = guideKeyShown(), st = g.state(), has = g.has(key), txt = g.text(key);
+    if (!has && !txt) { guideEl.hidden = true; return; }
+    guideEl.hidden = false;
+    var playing = st.playing && st.key === key, roomKey = Object.keys(GKEY).filter(function (k) { return GKEY[k] === key; })[0] || curRoom;
+    var h = "<span class='wk-geye'>" + esc(E.t(has ? "guideLabel" : "fromAlex")) + " · " + esc(E.t(GNAME[roomKey])) + "</span>";
+    h += "<div class='wk-gbar'>";
+    if (has) h += "<button class='wk-gplay' type='button' data-g='play'><span class='ic' aria-hidden='true'>" + (playing ? "❚❚" : "▶") + "</span>" + esc(playing ? E.t("pause") : E.t("listen")) + "</button><span class='wk-gtime'></span>";
+    h += "<button class='wk-gread' type='button' data-g='read'>" + esc(guideText ? E.t("hideText") : E.t("readAlong")) + "</button></div>";
+    if (guideText) h += "<p class='wk-cap'>" + esc(txt) + "</p>";
+    guideEl.innerHTML = h; guideTime();
+  }
+  function guideTime() {
+    if (!guideEl) return; var t = guideEl.querySelector(".wk-gtime"); if (!t) return;
+    var st = E.guide.state(); t.textContent = st.key === guideKeyShown() && st.d ? fmtTime(st.d - st.t) : "";
+  }
+  function guideClick(e) {
+    var b = e.target.closest("[data-g]"); if (!b) return;
+    if (b.dataset.g === "read") { guideText = !guideText; renderGuide(); return; }
+    var st = E.guide.state();
+    if (st.playing) E.guide.pause(); else E.guide.play(GKEY[curRoom]);
+  }
+
   /* ---------- Loop ---------- */
   function resize() {
     if (!renderer || !stage) return;
@@ -789,7 +819,7 @@
     }
     camera.rotation.set(pitch, yaw, 0, "YXZ");
     var rk = roomAt(camera.position);
-    if (rk !== curRoom) { curRoom = rk; E.playRoom(ROOMS[rk].music); }
+    if (rk !== curRoom) { curRoom = rk; E.playRoom(ROOMS[rk].music); renderGuide(); }
     var s = now / 1000;
     rings.forEach(function (r) { var p = 1 + 0.08 * Math.sin(s * 2 + r.userData.phase); r.scale.set(p, p, p); });
     if (tapRing.visible) { var tk = (now - tapT) / 650; if (tk >= 1) tapRing.visible = false; else { var sc = 0.6 + tk * 0.8; tapRing.scale.set(sc, sc, sc); tapRing.material.opacity = 0.9 * (1 - tk); } }
@@ -812,12 +842,14 @@
     if (hasTicket()) { var back = lsGet("efe-walk-pos", null); if (back && typeof back.x === "number") { camera.position.set(back.x, EYE, back.z); yaw = back.yaw || 0; } }
 
     var ui = document.createElement("div"); ui.className = "wk-ui";
-    ui.innerHTML = "<canvas class='wk-map' aria-label='Map'></canvas><div class='wk-quests'><button class='wk-qbtn' type='button' aria-expanded='false'></button><div class='wk-qpanel' hidden></div></div><p class='wk-hint'></p><div class='wk-card' role='dialog' aria-live='polite' hidden></div>";
+    ui.innerHTML = "<canvas class='wk-map' aria-label='Map'></canvas><div class='wk-quests'><button class='wk-qbtn' type='button' aria-expanded='false'></button><div class='wk-qpanel' hidden></div></div><p class='wk-hint'></p><div class='wk-card' role='dialog' aria-live='polite' hidden></div><div class='wk-guide' hidden></div>";
     stage.appendChild(ui);
     mapCanvas = ui.querySelector(".wk-map"); mapCtx = mapCanvas.getContext("2d");
     qBtn = ui.querySelector(".wk-qbtn"); qPanel = ui.querySelector(".wk-qpanel"); hintEl = ui.querySelector(".wk-hint"); card = ui.querySelector(".wk-card");
     qBtn.onclick = function () { var open = qPanel.hidden; qPanel.hidden = !open; qBtn.setAttribute("aria-expanded", String(open)); };
     mapCanvas.addEventListener("click", mapTap); card.addEventListener("click", cardClick);
+    guideEl = ui.querySelector(".wk-guide"); guideEl.addEventListener("click", guideClick);
+    if (E.guide) E.guide.on(function (ev) { if (ev && ev.type === "timeupdate") guideTime(); else renderGuide(); });
     if (location.protocol === "file:") { fileEl = document.createElement("p"); fileEl.className = "wk-filenote"; ui.appendChild(fileEl); }
 
     build();
