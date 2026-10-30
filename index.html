@@ -1329,6 +1329,21 @@
       color: var(--muted)
     }
 
+    .lb-name {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px 10px
+    }
+
+    .lb-name .name-btn {
+      margin-top: 2px
+    }
+
+    .lb-name .name-form {
+      width: 100%
+    }
+
     .btn {
       flex: none;
       width: 46px;
@@ -2311,6 +2326,7 @@
         <div class="lb-text">
           <h3 id="lb-title"></h3>
           <p class="note" id="lb-note"></p>
+          <div class="lb-name" id="lb-name"></div>
           <p class="lb-hint" id="lb-hint"></p>
         </div>
         <button class="btn" id="lb-next" type="button" aria-label="Next work">&#8594;</button>
@@ -2610,7 +2626,7 @@
         f.innerHTML = '<label class="sr" for="n-' + id + '">' + esc(t("nameLabel")) + '</label><input id="n-' + id + '" maxlength="80" value="' + esc(cur) + '" placeholder="' + esc(w.title[lang]) + '"><button type="submit">' + esc(t("save")) + '</button><button type="button" class="ghost">' + esc(t("cancel")) + '</button>';
         b.hidden = true; lt.appendChild(f); $("input", f).focus();
         $(".ghost", f).onclick = function () { f.remove(); b.hidden = false; };
-        f.onsubmit = function (ev) { ev.preventDefault(); var v = $("input", f).value.trim().slice(0, 80); saveTitle(id, v); renderRooms(); renderTitles(); if (v) toast(t("savedTitle")); var nb = $('#w-' + id + ' .name-btn'); if (nb) nb.focus(); };
+        f.onsubmit = function (ev) { ev.preventDefault(); var v = $("input", f).value.trim().slice(0, 80); saveTitle(id, v); renderRooms(); renderTitles(); if (v) toast(t("savedTitle")); if (dlg.open) { show(idx); var lb = $("#lb-name .name-btn"); if (lb) lb.focus(); return; } var nb = $('#w-' + id + ' .name-btn'); if (nb) nb.focus(); };
       });
 
       /* ---------- Hidden bear and kitten ---------- */
@@ -2833,6 +2849,9 @@
         lbImg.src = w.img; lbImg.alt = w.alt || "";
         if (w.title) { $("#lb-title").textContent = titleOf(w); $("#lb-note").textContent = w.note[lang]; }
         else { $("#lb-title").textContent = id === "installation" ? t("installH") : t("detail"); $("#lb-note").textContent = id === "installation" ? t("installNote") : ""; }
+        // Naming works here too, so she can name a work from the 3D walk as well as the rooms.
+        var named = !!(store.titles[id] && store.titles[id].title);
+        $("#lb-name").innerHTML = w.title ? (named ? '<span class="named">' + esc(t("namedBy")) + '</span> ' : '') + '<button class="name-btn" type="button" data-name="' + id + '">✎ ' + esc(named ? t("rename") : t("nameIt")) + '</button>' : '';
         $("#lb-hint").textContent = matchMedia("(hover: hover)").matches ? t("hintMouse") : t("hintTouch");
         hideLens();
       }
@@ -2846,7 +2865,7 @@
       $("#lb-prev").onclick = function () { show(idx - 1); };
       $("#lb-next").onclick = function () { show(idx + 1); };
       $("#lb-close").onclick = closeLb;
-      document.addEventListener("keydown", function (e) { if (!dlg.open) return; if (e.key === "ArrowLeft") show(idx - 1); if (e.key === "ArrowRight") show(idx + 1); });
+      document.addEventListener("keydown", function (e) { if (!dlg.open || /input|textarea/i.test((e.target && e.target.tagName) || "")) return; if (e.key === "ArrowLeft") show(idx - 1); if (e.key === "ArrowRight") show(idx + 1); });
       function hideLens() { lens.hidden = true; }
       function lensAt(cx, cy, touch) {
         var r = lbImg.getBoundingClientRect(), x = cx - r.left, y = cy - r.top;
@@ -2933,7 +2952,7 @@
 
       /* ---------- 3D walk: loader and what it can use from this page ---------- */
       var THREE_URL = window.EFE_THREE_URL || "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js";
-      var WALK_URL = "walk.js?v=7";
+      var WALK_URL = "walk.js?v=8";
       var walkListeners = [], walkLoading = false;
       function notify() { walkListeners.forEach(function (fn) { try { fn(); } catch (e) { } }); }
       function setBarH() { var b = $(".bar"); if (b) document.documentElement.style.setProperty("--barH", Math.round(b.getBoundingClientRect().bottom) + "px"); }
