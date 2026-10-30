@@ -3,6 +3,24 @@
 A private, one-page gallery site (lobby, three rooms, game, exit) for Cloudflare Pages.
 Plain HTML/CSS/JS with no build step, plus one Pages Function for saving titles and notes in KV.
 
+## Hosting (Cloudflare Worker)
+
+The site runs as a Cloudflare Worker named `ebru-gallery`. Every push to `main` builds and deploys it with `npx wrangler deploy`.
+
+- `wrangler.jsonc`: Worker settings. All website files in this folder are served as static files.
+- `src/worker.js` + `src/api.js`: the only code that runs on the server, for `/api/...` (her titles and notes).
+- `.assetsignore`: files that are never published (code, README, scripts).
+
+To save titles and notes online (optional):
+1. `npx wrangler kv namespace create GALLERY` and copy the id it prints.
+2. In `wrangler.jsonc`, uncomment the `kv_namespaces` lines and paste the id.
+3. `npx wrangler secret put ADMIN_KEY` (any long password), commit and push.
+4. Read her notes at `https://first.ebrugallery.com/api/notes?key=YOUR_ADMIN_KEY`.
+
+Without KV, titles and notes are kept on her phone only.
+
+The older Pages instructions below (functions folder, Pages bindings) no longer apply.
+
 ## Folder
 
 ```

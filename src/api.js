@@ -1,4 +1,4 @@
-// Cloudflare Pages Function: stores the titles Ebru gives her works, and her notes to you.
+// API for the gallery: stores the titles Ebru gives her works, and her notes to you.
 // Needs a KV namespace bound as GALLERY, and a secret ADMIN_KEY so only you can read the notes.
 //
 //   GET  /api/state               -> { titles: { [workId]: { title, at } } }
@@ -27,11 +27,10 @@ async function readTitles(kv) {
   return titles;
 }
 
-export async function onRequest({ request, env, params }) {
+export async function handleApi(request, env, route) {
   const kv = env.GALLERY;
   if (!kv) return json({ error: "KV namespace GALLERY is not bound" }, 500);
 
-  const route = (params.route || []).join("/");
   const method = request.method;
 
   if (route === "state" && method === "GET") {

@@ -1,0 +1,17 @@
+{
+  // Cloudflare Worker for first.ebrugallery.com
+  "name": "ebru-gallery",
+  "main": "src/worker.js",
+  "compatibility_date": "2025-10-01",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  }
+  // To save her titles and notes online, create a KV namespace once:
+  //   npx wrangler kv namespace create GALLERY
+  // then paste the id it prints below (remove the // in front of the 3 lines), commit and push:
+  // ,"kv_namespaces": [
+  //   { "binding": "GALLERY", "id": "PASTE-ID-HERE" }
+  // ]
+}

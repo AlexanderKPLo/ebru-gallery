@@ -1,0 +1,12 @@
+# Files that are part of the project but must not be published as website files
+.git
+.gitignore
+.assetsignore
+.DS_Store
+**/.DS_Store
+wrangler.jsonc
+src
+node_modules
+README.md
+VOICE-GUIDE-SCRIPT.md
+*.patch
