@@ -69,7 +69,7 @@
       qCoffee: "Have a coffee with Alex", qHunt: "Find the bears and kittens ({n}/6)", qDone: "All quests done. Alex has a surprise for you.",
       sLobby: "Lobby", sR1: "Room 1 · Art Textiles", sR2: "Room 2 · Drawings", sR3: "Room 3 · Colour Studies", sExit: "Exit · Before you go",
       coffeeSub: "Turkish coffee", lobbyMap: "LOBBY",
-      guardName: "Security Bear", guardHi: "Good evening! Ticket, please.", guardLabel: "Passcode · Hint: our birthdays", guardBtn: "Show ticket",
+      guardName: "Security Bear", guardHi: "Good evening! Ticket, please.", guardLabel: "6-digit passcode · Hint: 7XX5XX, our birthdays", guardBtn: "Show ticket",
       guardOk: "Welcome, Ebru! Enjoy the exhibition.", guardNo: "Hmm, that is not the code. Try again.", guardBack: "Welcome back, Ebru! Enjoy the exhibition.", goIn: "Go in",
       recName: "Reception", recHi: "Hoş geldin! Welcome to Ebru's First Exhibition. The artist is allergic to the sun, so we only open after sunset. Please show your ticket to our security bear.", thanks: "Thank you",
       alexName: "Alex · barista", alex1: "One Turkish coffee for my artist?", yes: "Yes, please", alex2: "While it cooks: what did the coffee say to the sugar?", what: "What?", alex3: "“You make my life sweet.”",
@@ -81,7 +81,7 @@
       qCoffee: "Alex'le bir kahve iç", qHunt: "Ayıları ve kedileri bul ({n}/6)", qDone: "Tüm görevler tamam. Alex'in sana bir sürprizi var.",
       sLobby: "Lobi", sR1: "1. Salon · Sanat Tekstilleri", sR2: "2. Salon · Çizimler", sR3: "3. Salon · Renk Çalışmaları", sExit: "Çıkış · Gitmeden önce",
       coffeeSub: "Taze pişmiş", lobbyMap: "LOBİ",
-      guardName: "Güvenlik Ayısı", guardHi: "İyi akşamlar! Biletiniz lütfen.", guardLabel: "Şifre · İpucu: doğum günlerimiz", guardBtn: "Bileti göster",
+      guardName: "Güvenlik Ayısı", guardHi: "İyi akşamlar! Biletiniz lütfen.", guardLabel: "6 haneli şifre · İpucu: 7XX5XX, doğum günlerimiz", guardBtn: "Bileti göster",
       guardOk: "Hoş geldin Ebru! Sergide keyifli vakit geçir.", guardNo: "Hmm, bu şifre değil. Tekrar dene.", guardBack: "Tekrar hoş geldin Ebru! Sergide keyifli vakit geçir.", goIn: "İçeri gir",
       recName: "Resepsiyon", recHi: "Hoş geldin! Ebru'nun İlk Sergisi'ne hoş geldin. Sanatçının güneşe alerjisi var, bu yüzden sadece gün batımından sonra açığız. Lütfen biletini güvenlik ayımıza göster.", thanks: "Teşekkürler",
       alexName: "Alex · barista", alex1: "Sanatçım için bir Türk kahvesi?", yes: "Evet, lütfen", alex2: "Kahve pişerken: kahve şekere ne demiş?", what: "Ne demiş?", alex3: "“Hayatımı tatlandırıyorsun.”",
@@ -642,7 +642,7 @@
     if (who === "guard") {
       h += "<p class='wk-who'>" + esc(wt("guardName")) + "</p>";
       if (hasTicket()) h += "<p class='wk-say'>" + esc(wt("guardBack")) + "</p><button class='wk-btn' type='button' data-act='goin'>" + esc(wt("goIn")) + "</button>";
-      else h += "<p class='wk-say'>" + esc(wt("guardHi")) + "</p><form class='wk-form'><label for='wk-pass'>" + esc(wt("guardLabel")) + "</label><div class='wk-row'><input id='wk-pass' inputmode='numeric' autocomplete='off' maxlength='12'><button class='wk-btn' type='submit'>" + esc(wt("guardBtn")) + "</button></div></form><p class='wk-msg' aria-live='polite'></p>";
+      else h += "<p class='wk-say'>" + esc(wt("guardHi")) + "</p><form class='wk-form'><label for='wk-pass'>" + esc(wt("guardLabel")) + "</label><div class='wk-row'><input id='wk-pass' inputmode='numeric' pattern='[0-9]*' autocomplete='off' maxlength='6' placeholder='7 _ _ 5 _ _'><button class='wk-btn' type='submit'>" + esc(wt("guardBtn")) + "</button></div></form><p class='wk-msg' aria-live='polite'></p>";
     } else if (who === "reception") {
       h += "<p class='wk-who'>" + esc(wt("recName")) + "</p><p class='wk-say'>" + esc(wt("recHi")) + "</p><button class='wk-btn' type='button' data-act='close'>" + esc(wt("thanks")) + "</button>";
     } else {
