@@ -1555,6 +1555,329 @@
         display: none
       }
     }
+
+    /* ---------- 3D walk ---------- */
+    body.walking {
+      overflow: hidden
+    }
+
+    body.walking footer {
+      display: none
+    }
+
+    .walk-stage {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: var(--barH, 58px);
+      z-index: 15;
+      background: var(--wall);
+      overflow: hidden;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none
+    }
+
+    .wk-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab
+    }
+
+    .wk-loading {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      font-family: var(--script);
+      font-size: 30px;
+      color: var(--hand)
+    }
+
+    .wk-ui {
+      position: absolute;
+      inset: 0;
+      pointer-events: none
+    }
+
+    .wk-ui>* {
+      pointer-events: auto
+    }
+
+    .wk-ui {
+      z-index: 2
+    }
+
+    /* Soft darkening at the edges of the view, like a real room's corners */
+    .walk-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(20, 12, 24, .22) 100%)
+    }
+
+    .wk-card {
+      position: absolute;
+      left: 50%;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%);
+      width: min(440px, calc(100% - 24px));
+      background: var(--wall);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 20px 18px;
+      box-shadow: 0 20px 44px -18px var(--shadow);
+      display: grid;
+      gap: 10px;
+      justify-items: start
+    }
+
+    .wk-x {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      background: none;
+      font-size: 22px;
+      color: var(--muted);
+      cursor: pointer
+    }
+
+    .wk-who {
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600
+    }
+
+    .wk-say {
+      font-size: 17px;
+      line-height: 1.45;
+      padding-right: 24px
+    }
+
+    .wk-hand {
+      font-family: var(--script);
+      font-size: 27px;
+      line-height: 1.2;
+      color: var(--hand)
+    }
+
+    .wk-big {
+      font-size: 34px
+    }
+
+    .wk-btn {
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--wall);
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer
+    }
+
+    .wk-form {
+      display: grid;
+      gap: 6px;
+      width: 100%
+    }
+
+    .wk-form label {
+      font-size: 14px;
+      color: var(--muted)
+    }
+
+    .wk-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .wk-row input {
+      flex: 1 1 140px;
+      min-width: 0;
+      font: inherit;
+      font-size: 20px;
+      letter-spacing: .2em;
+      padding: 8px 12px;
+      border: 1px solid var(--ink);
+      border-radius: 8px;
+      background: var(--mat);
+      color: var(--ink)
+    }
+
+    .wk-msg {
+      font-size: 15px;
+      color: var(--red);
+      min-height: 1.2em
+    }
+
+    .wk-msg.ok {
+      font-family: var(--script);
+      font-size: 26px;
+      color: var(--hand)
+    }
+
+    .wk-filenote {
+      position: absolute;
+      left: 50%;
+      top: 12px;
+      transform: translateX(-50%);
+      width: min(420px, calc(100% - 420px));
+      min-width: 200px;
+      background: var(--red);
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.4;
+      padding: 8px 12px;
+      border-radius: 8px
+    }
+
+    .wk-map {
+      position: absolute;
+      top: 12px;
+      left: max(12px, env(safe-area-inset-left, 0px));
+      width: 176px;
+      height: 138px;
+      border-radius: 10px;
+      background: var(--wall);
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 24px -14px var(--shadow);
+      cursor: pointer;
+      opacity: .94
+    }
+
+    .wk-quests {
+      position: absolute;
+      top: 12px;
+      right: max(12px, env(safe-area-inset-right, 0px));
+      display: grid;
+      justify-items: end;
+      gap: 8px;
+      max-width: min(300px, calc(100% - 220px))
+    }
+
+    .wk-qbtn {
+      border: 1px solid var(--ink);
+      background: var(--wall);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 10px 24px -14px var(--shadow)
+    }
+
+    .wk-qpanel {
+      background: var(--wall);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+      box-shadow: 0 14px 30px -16px var(--shadow);
+      font-size: 14.5px;
+      width: min(300px, calc(100vw - 32px))
+    }
+
+    .wk-qpanel ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px
+    }
+
+    .wk-qpanel li {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start
+    }
+
+    .wk-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--muted);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      line-height: 1;
+      margin-top: 1px
+    }
+
+    .wk-qpanel li.done .wk-check {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff
+    }
+
+    .wk-qpanel li.done span:last-child {
+      color: var(--muted)
+    }
+
+    .wk-qh {
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 600
+    }
+
+    .wk-qdone {
+      margin-top: 12px;
+      font-family: var(--script);
+      font-size: 24px;
+      line-height: 1.2;
+      color: var(--hand)
+    }
+
+    .wk-hint {
+      position: absolute;
+      left: 50%;
+      bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%);
+      background: var(--ink);
+      color: var(--wall);
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      width: max-content;
+      max-width: calc(100% - 32px);
+      text-align: center;
+      transition: opacity .8s;
+      pointer-events: none !important
+    }
+
+    .pill-walk {
+      background: var(--ink);
+      color: var(--wall)
+    }
+
+    @media (max-width:520px) {
+      .wk-map {
+        width: 136px;
+        height: 108px
+      }
+
+      .wk-quests {
+        max-width: calc(100% - 172px)
+      }
+    }
   </style>
 </head>
 
@@ -1568,6 +1891,7 @@
       <a class="brand" href="#lobby" data-i18n="brand">Ebru's First Exhibition</a>
       <nav class="nav" aria-label="Rooms">
         <a href="#lobby" data-i18n="navLobby">Lobby</a>
+        <a href="#walk" data-i18n="navWalk">Walk</a>
         <a href="#room-1" data-i18n="navR1">Room 1</a>
         <a href="#room-2" data-i18n="navR2">Room 2</a>
         <a href="#room-3" data-i18n="navR3">Room 3</a>
@@ -1648,6 +1972,7 @@
             </a>
           </div>
           <div class="side-doors">
+            <a class="pill pill-walk" href="#walk" data-i18n="walkPill">Walk through the gallery (3D)</a>
             <a class="pill" href="#play" data-i18n="playPill">Play: Find the detail</a>
             <a class="pill" href="#exit" data-i18n="exitPill">Music, notes and a secret</a>
           </div>
@@ -1792,6 +2117,13 @@
         <div class="next"><a class="pill" href="#play" data-i18n="backPlay">← Play</a><a class="big" href="#lobby"
             data-i18n="toLobby">Back to the lobby →</a></div>
       </section>
+
+      <!-- 3D WALK -->
+      <section class="view" data-view="walk" hidden>
+        <div class="walk-stage" id="walk-stage">
+          <p class="wk-loading" data-i18n="walkLoading">Opening the doors…</p>
+        </div>
+      </section>
     </main>
 
     <footer><span data-i18n="foot1">All works © Ebru. Curated with love by Alex.</span><span data-i18n="foot2">A private
@@ -1901,6 +2233,10 @@
           secretLocked: "A secret note is waiting here. Find all 6 bears and kittens hidden in the rooms to open it.",
           secretOpen: "You found them all. The bear and the kitten are always together. A big bear hug for you, my kitten.",
           foot1: "All works © Ebru. Curated with love by Alex.", foot2: "A private exhibition for one guest.",
+          navWalk: "Walk", walkPill: "Walk through the gallery (3D)", walkLoading: "Opening the doors…", walkFail: "The 3D walk could not open on this device. You can still visit",
+          walkHint: "Tap the floor to walk · Drag to look around · Tap a work to see it",
+          questsBtn: "Quests", q1: "Walk into Room 1", q2: "Look closely at 3 works ({n}/3)", q3: "Give one work a name", q4: "Find the bears and kittens ({n}/6)", qDone: "All quests done. Alex has a surprise for you.",
+          doorLobby: "Lobby", doorR2: "Room 2 · Drawings", doorLobbyIn: "← Lobby", doorR2In: "Room 2 →",
           nameIt: "Name this work", rename: "Change the name", save: "Save", cancel: "Cancel", namedBy: "Named by the artist", nameLabel: "Title for this work",
           savedTitle: "Saved. The work has a name now.",
           foundBear: "You found a bear! {n}/6", foundKitten: "You found a kitten! {n}/6",
@@ -1941,6 +2277,10 @@
           secretLocked: "Burada gizli bir not seni bekliyor. Açmak için salonlara saklanmış 6 ayıyı ve kediyi bul.",
           secretOpen: "Hepsini buldun. Ayı ve kedi her zaman birlikte. Sana kocaman bir ayı sarılması, kedim.",
           foot1: "Tüm eserler © Ebru. Alex tarafından sevgiyle hazırlandı.", foot2: "Tek bir misafir için özel bir sergi.",
+          navWalk: "Yürü", walkPill: "Galeride yürü (3D)", walkLoading: "Kapılar açılıyor…", walkFail: "3D gezinti bu cihazda açılamadı. Yine de ziyaret edebilirsin:",
+          walkHint: "Yürümek için zemine dokun · Etrafa bakmak için sürükle · Görmek için esere dokun",
+          questsBtn: "Görevler", q1: "1. Salon'a gir", q2: "3 esere yakından bak ({n}/3)", q3: "Bir esere isim ver", q4: "Ayıları ve kedileri bul ({n}/6)", qDone: "Tüm görevler tamam. Alex'in sana bir sürprizi var.",
+          doorLobby: "Lobi", doorR2: "2. Salon · Çizimler", doorLobbyIn: "← Lobi", doorR2In: "2. Salon →",
           nameIt: "Bu esere isim ver", rename: "İsmi değiştir", save: "Kaydet", cancel: "Vazgeç", namedBy: "Sanatçı tarafından adlandırıldı", nameLabel: "Bu eserin adı",
           savedTitle: "Kaydedildi. Eserin artık bir adı var.",
           foundBear: "Bir ayı buldun! {n}/6", foundKitten: "Bir kedi buldun! {n}/6",
@@ -2072,6 +2412,7 @@
         var hb = $(".hero-work .frame"); if (hb) hb.setAttribute("aria-label", titleOf(BY.red));
         placeCritters();
         watchWorks();
+        notify();
       }
       function renderStatic() {
         document.documentElement.lang = lang;
@@ -2113,15 +2454,20 @@
         });
         $("#hunt-count").textContent = found.length + "/6";
       }
+      function foundCritter(id) {
+        if (found.indexOf(id) >= 0) return false;
+        found.push(id); lsSet("efe-hunt", found);
+        $$('[data-critter="' + id + '"]').forEach(function (b) { b.classList.add("found"); });
+        var h = HUNT.filter(function (x) { return x.id === id; })[0];
+        $("#hunt-count").textContent = found.length + "/6";
+        toast(fmt(t(h && h.kind === "kitten" ? "foundKitten" : "foundBear"), { n: found.length }));
+        renderSecret(); notify();
+        return true;
+      }
       document.addEventListener("click", function (e) {
         var b = e.target.closest(".critter"); if (!b) return;
         e.stopPropagation();
-        var id = b.dataset.critter; if (found.indexOf(id) >= 0) return;
-        found.push(id); lsSet("efe-hunt", found); b.classList.add("found");
-        var h = HUNT.filter(function (x) { return x.id === id; })[0];
-        $("#hunt-count").textContent = found.length + "/6";
-        toast(fmt(t(h.kind === "bear" ? "foundBear" : "foundKitten"), { n: found.length }));
-        renderSecret();
+        foundCritter(b.dataset.critter);
       }, true);
       function renderSecret() {
         var open = found.length >= 6, s = $("#secret");
@@ -2239,13 +2585,15 @@
       audio.addEventListener("timeupdate", function () { var el = $('[data-time="' + audioFor + '"]'); if (!el || !audio.duration) return; var r = Math.max(0, audio.duration - audio.currentTime); el.textContent = Math.floor(r / 60) + ":" + String(Math.floor(r % 60)).padStart(2, "0"); });
 
       /* ---------- Routing ---------- */
-      var VIEWS = ["lobby", "room-1", "room-2", "room-3", "play", "exit"];
+      var VIEWS = ["lobby", "walk", "room-1", "room-2", "room-3", "play", "exit"];
       function route() {
         var h = (location.hash || "").replace("#", "");
         var v = VIEWS.indexOf(h) >= 0 ? h : "lobby";
         $$(".view").forEach(function (s) { s.hidden = s.dataset.view !== v; });
         $$(".nav a").forEach(function (a) { if (a.getAttribute("href") === "#" + v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
         document.body.classList.toggle("rooms", v.indexOf("room") === 0);
+        document.body.classList.toggle("walking", v === "walk");
+        if (v === "walk") startWalk(); else if (window.EFEWalk) window.EFEWalk.pause();
         currentView = v;
         if (!audio.paused && audioFor !== v) audio.pause();
         if (M.on && M.unlocked && audio.paused && ROOM_MUSIC[v] && ROOM_MUSIC[v] !== M.cur) playSong(ROOM_MUSIC[v]);
@@ -2409,6 +2757,48 @@
           else $("#gate-st").textContent = t("gateWrong");
         };
       }
+
+      /* ---------- 3D walk: loader and what it can use from this page ---------- */
+      var THREE_URL = window.EFE_THREE_URL || "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js";
+      var WALK_URL = "walk.js?v=4";
+      var walkListeners = [], walkLoading = false;
+      function notify() { walkListeners.forEach(function (fn) { try { fn(); } catch (e) { } }); }
+      function setBarH() { var b = $(".bar"); if (b) document.documentElement.style.setProperty("--barH", Math.round(b.getBoundingClientRect().bottom) + "px"); }
+      function loadScript(src) { return new Promise(function (res, rej) { var s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
+      function startWalk() {
+        setBarH();
+        if (window.EFEWalk) { window.EFEWalk.resume(); return; }
+        if (walkLoading) return; walkLoading = true;
+        (window.THREE ? Promise.resolve() : loadScript(THREE_URL)).then(function () { return loadScript(WALK_URL); }).then(function () {
+          if (!window.EFEWalk) throw new Error("walk");
+          window.EFEWalk.init($("#walk-stage"));
+          if (currentView !== "walk") window.EFEWalk.pause();
+        }).catch(function () {
+          walkLoading = false;
+          $("#walk-stage").innerHTML = '<p class="wk-loading">' + esc(t("walkFail")) + ' <a href="#room-1">' + esc(t("navR1")) + '</a></p>';
+        });
+      }
+      addEventListener("resize", setBarH);
+      function openWork(id) {
+        var w = BY[id]; if (!w) return;
+        var view = $('[data-view="room-' + w.room + '"]');
+        list = $$(".frame", view);
+        var f = $('.frame[data-id="' + id + '"]', view); idx = Math.max(0, list.indexOf(f)); show(idx);
+        try { dlg.showModal(); } catch (err) { dlg.setAttribute("open", ""); }
+      }
+      window.EFE = {
+        works: WORKS, by: BY,
+        lang: function () { return lang; }, t: t,
+        title: titleOf,
+        titled: function (id) { var c = store.titles[id]; return !!(c && c.title); },
+        hasTitles: function () { return Object.keys(store.titles).some(function (k) { return BY[k] && store.titles[k].title; }); },
+        openWork: openWork,
+        find: foundCritter,
+        isFound: function (id) { return found.indexOf(id) >= 0; },
+        foundCount: function () { return found.length; },
+        playRoom: function (v) { if (M.on && M.unlocked && audio.paused && ROOM_MUSIC[v] && ROOM_MUSIC[v] !== M.cur) playSong(ROOM_MUSIC[v]); },
+        on: function (fn) { walkListeners.push(fn); }
+      };
 
       /* ---------- Start ---------- */
       /* Scroll-reveal for artworks */
