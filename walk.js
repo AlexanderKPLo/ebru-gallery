@@ -67,7 +67,7 @@
       hint: "Tap the floor to walk · Drag to look around · Tap a work or a person",
       quests: "Quests", qTicket: "Show your ticket at the door", qLook: "Look closely at 3 works ({n}/3)", qName: "Give one work a name",
       qCoffee: "Have a coffee with Alex", qHunt: "Find the bears and kittens ({n}/6)", qDone: "All quests done. Alex has a surprise for you.",
-      sLobby: "Lobby", sR1: "Room 1 · Art Textiles", sR2: "Room 2 · Drawings", sR3: "Room 3 · Colour Studies", sExit: "Exit · Before you go",
+      sLobby: "Lobby", sR1: "Room 1 · Art Textiles", sR2: "Room 2 · Drawings", sR3: "Room 3 · Colour Studies", sExit: "Next · Find the detail",
       coffeeSub: "Turkish coffee", lobbyMap: "LOBBY",
       guardName: "Security Bear", guardHi: "Good evening! Ticket, please.", guardLabel: "6-digit passcode · Hint: 7XX5XX, our birthdays", guardBtn: "Show ticket",
       guardOk: "Welcome, Ebru! Enjoy the exhibition.", guardNo: "Hmm, that is not the code. Try again.", guardBack: "Welcome back, Ebru! Enjoy the exhibition.", goIn: "Go in",
@@ -79,7 +79,7 @@
       hint: "Yürümek için zemine dokun · Etrafa bakmak için sürükle · Bir esere ya da kişiye dokun",
       quests: "Görevler", qTicket: "Kapıda biletini göster", qLook: "3 esere yakından bak ({n}/3)", qName: "Bir esere isim ver",
       qCoffee: "Alex'le bir kahve iç", qHunt: "Ayıları ve kedileri bul ({n}/6)", qDone: "Tüm görevler tamam. Alex'in sana bir sürprizi var.",
-      sLobby: "Lobi", sR1: "1. Salon · Sanat Tekstilleri", sR2: "2. Salon · Çizimler", sR3: "3. Salon · Renk Çalışmaları", sExit: "Çıkış · Gitmeden önce",
+      sLobby: "Lobi", sR1: "1. Salon · Sanat Tekstilleri", sR2: "2. Salon · Çizimler", sR3: "3. Salon · Renk Çalışmaları", sExit: "Sıradaki · Detayı bul",
       coffeeSub: "Taze pişmiş", lobbyMap: "LOBİ",
       guardName: "Güvenlik Ayısı", guardHi: "İyi akşamlar! Biletiniz lütfen.", guardLabel: "6 haneli şifre · İpucu: 7XX5XX, doğum günlerimiz", guardBtn: "Bileti göster",
       guardOk: "Hoş geldin Ebru! Sergide keyifli vakit geçir.", guardNo: "Hmm, bu şifre değil. Tekrar dene.", guardBack: "Tekrar hoş geldin Ebru! Sergide keyifli vakit geçir.", goIn: "İçeri gir",
@@ -615,7 +615,7 @@
       var d = u.door, cur = roomAt(camera.position), other = cur === d.a ? d.b : d.a, s = other === d.b ? 1 : -1;
       route(new T.Vector3(d.x + d.nx * 1.8 * s, 0, d.z + d.nz * 1.8 * s), other, Math.atan2(-d.nx * s, -d.nz * s), null);
     } else if (u.type === "exit") {
-      route(new T.Vector3(ROOMS.r3.x1 - 0.6, 0, 0), "r3", -Math.PI / 2, function () { location.hash = "#exit"; });
+      route(new T.Vector3(ROOMS.r3.x1 - 0.6, 0, 0), "r3", -Math.PI / 2, function () { location.hash = "#play"; });
     } else if (u.type === "npc") {
       var n = hit.object, rk = roomAt(n.position), front = npcFront(u.who);
       route(front, rk, Math.atan2(-(n.position.x - front.x), -(n.position.z - front.z)), function () { openCard(u.who); });
@@ -739,7 +739,7 @@
   function mapTap(e) {
     var r = mapCanvas.getBoundingClientRect(), m = mapCanvas._m; if (!m) return;
     var p = new T.Vector3(MAPB.x0 + (e.clientX - r.left - m.ox) / m.s, 0, MAPB.z0 + (e.clientY - r.top - m.oy) / m.s);
-    if (p.x > ROOMS.r3.x1 + 0.2 && Math.abs(p.z) < 1.5) { route(new T.Vector3(ROOMS.r3.x1 - 0.6, 0, 0), "r3", -Math.PI / 2, function () { location.hash = "#exit"; }); return; }
+    if (p.x > ROOMS.r3.x1 + 0.2 && Math.abs(p.z) < 1.5) { route(new T.Vector3(ROOMS.r3.x1 - 0.6, 0, 0), "r3", -Math.PI / 2, function () { location.hash = "#play"; }); return; }
     var rk = roomAt(p), q = clampIn(rk, p); showTap(q); route(q, rk, null, null);
   }
 
